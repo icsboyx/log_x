@@ -11,9 +11,10 @@ pub static MODULES_LOG_LEVEL: LazyLock<RwLock<HashMap<String, ModLogger>>> = Laz
 
 
 pub trait ModLoggerTriat {
-    fn set_mod_log_level(module: &str, log_level: LogLevel, paranoia: bool);
-    fn mod_log_level(&self) -> LogLevel;
-    fn mod_paranoia(&self) -> bool;
+    fn set_mod_logging(module: &str, log_level: LogLevel, paranoia: bool);
+    fn get_mod_name(module: &str) -> String;
+    fn get_mod_log_level(module: &str) -> LogLevel;
+    fn get_mod_paranoia(module: &str) -> bool;
 }
 
 
@@ -50,13 +51,50 @@ impl ModLogger {
         }
     }
 
-    pub fn log_level(&self) -> LogLevel {
-        self.log_level.clone()  
+    pub fn get_mod_name(module: &str) -> String {
+        match MODULES_LOG_LEVEL.read() {
+            Ok(modules_log_level) => {
+                match modules_log_level.get(module) {
+                    Some(mod_logger) => mod_logger.module.clone(),
+                    None => "".to_string(),
+                }
+            }
+            Err(e) => {
+                eprintln!("Failed to get the log level for module {} in MODULES_LOG_LEVEL: {:?}", module, e);
+                "".to_string()
+            }
+        }
+    }
+
+    pub fn get_mod_log_level(module: &str) -> LogLevel {
+        match MODULES_LOG_LEVEL.read() {
+            Ok(modules_log_level) => {
+                match modules_log_level.get(module) {
+                    Some(mod_logger) => mod_logger.log_level.clone(),
+                    None => LogLevel::Off,
+                }
+            }
+            Err(e) => {
+                eprintln!("Failed to get the log level for module {} in MODULES_LOG_LEVEL: {:?}", module, e);
+                LogLevel::Off
+            }
+        }
 
     }
 
-    pub fn paranoia(&self) -> bool {
-        self.paranoia
+    pub fn get_mod_paranoia(module: &str) -> bool {
+        match MODULES_LOG_LEVEL.read() {
+            Ok(modules_log_level) => {
+                match modules_log_level.get(module) {
+                    Some(mod_logger) => mod_logger.paranoia,
+                    None => false,
+                }
+            }
+            Err(e) => {
+                eprintln!("Failed to get the paranoia for module {} in MODULES_LOG_LEVEL: {:?}", module, e);
+                false
+            }
+        }
     }
 }
 

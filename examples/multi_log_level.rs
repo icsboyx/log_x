@@ -38,7 +38,7 @@ mod mod_one {
         let this_module = module_path!();
 
         // setting the log level to Trace for this specific module mod_one
-        Logger::set_mod_log_level(this_module, LogLevel::Trace, false);
+        Logger::set_mod_logging(this_module, LogLevel::Trace, false);
 
         println!("\n{:-<200}", "");
         println!("Logging from mod_one with log level of Trace.\n");
@@ -54,7 +54,7 @@ mod mod_two {
     use logx::{loggers::{mod_logger::ModLoggerTriat, log_levels::LogLevel}, Logger, LogxTrait};
     pub fn log_somthing() {
         // setting the log level to Info for this specific module mod_two
-        Logger::set_mod_log_level(module_path!(), LogLevel::Trace, false);
+        Logger::set_mod_logging(module_path!(), LogLevel::Trace, false);
 
         println!("\n{:-<200}", "");
         println!("Logging from mod_two with log level of Debug.\n");
@@ -86,7 +86,7 @@ mod mod_four {
     
     pub fn log_somthing() {
         // setting the log level to Info for this specific module mod_four
-        Logger::set_mod_log_level(module_path!(), LogLevel::Warn, true);
+        Logger::set_mod_logging(module_path!(), LogLevel::Warn, true);
 
         println!("\n{:-<200}", "");
         println!("Logging from mod_four with warn level and paranoia :P.\n");
