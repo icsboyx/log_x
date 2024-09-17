@@ -1,6 +1,8 @@
 use std::{ fmt::Debug, sync::{ LazyLock, RwLock } };
 
-use crate::log_levels::LogLevel;
+use super::log_levels::LogLevel;
+
+
 
 // Define global static variables for common log levels
 pub static DEFAULT_LOG_LEVEL: LazyLock<RwLock<DefaultLogLevel>> = LazyLock::new(||

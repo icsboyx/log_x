@@ -1,5 +1,8 @@
-use crate::terminal::Color;
+
 use std::fmt::{self, Display, Formatter};
+
+use crate::terminal::colors::Color;
+
 
 
 

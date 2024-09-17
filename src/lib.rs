@@ -1,26 +1,26 @@
 #![allow(dead_code)]
 
 // Import necessary items
-mod macros;
-mod terminal;
-pub mod log_levels;
-pub mod global_logger;
-pub mod mod_logger;
+pub mod loggers;
+pub mod terminal;
+
+#[macro_use]
+pub mod macros;
 
 
-use global_logger::{DefaultLogLevel, GlobaLoggerTrait, DEFAULT_LOG_LEVEL};
-use log_levels::LogLevel;
-use mod_logger::{ ModLogger, ModLoggerTriat, MODULES_LOG_LEVEL};
-use terminal:: Colorize;
 
-use std::{
-    fmt::{  Debug, Display }, fs::Metadata, io::{Stdout, Write}};
+
+use std::{fmt::{Debug, Display}, io::Write};
+
+use loggers::{global_logger::{DefaultLogLevel, GlobaLoggerTrait, DEFAULT_LOG_LEVEL}, log_levels::LogLevel, mod_logger::{ModLogger, ModLoggerTriat, MODULES_LOG_LEVEL}};
+use terminal::colors::Colorize;
+
 
 // Implement the Colorize trait for all types that implement Display and Debug
 impl<T: Display + Debug> Colorize for T {}
 
 
-pub trait Logx {
+pub trait LogxTrait {
     fn enabled(metadata: &LogMetadata) -> bool;
     fn log(metadata: &LogMetadata);
     fn flush();
@@ -91,7 +91,7 @@ impl LogMetadata {
 
 pub struct Logger {}
 
-impl Logx for Logger {
+impl LogxTrait for Logger {
     fn enabled(metadata: &LogMetadata) -> bool {
         let module_level = MODULES_LOG_LEVEL.read().unwrap().get(metadata.target()).cloned();
         let default_level = DEFAULT_LOG_LEVEL.read().unwrap().default_log_level.clone();
@@ -122,7 +122,10 @@ impl Logx for Logger {
         }
     }
     fn flush() {
-        std::io::stdout().flush().unwrap();
+        match std::io::stdout().flush() {
+            Ok(_) => {}
+            Err(e) => eprintln!("Failed to flush stdout: {:?}", e),
+        }
     }
 }
 

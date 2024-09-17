@@ -1,7 +1,7 @@
+#[macro_use]
 extern crate logx;
-use log_levels::LogLevel;
-use logx::*;
-use global_logger::GlobaLoggerTrait;
+
+use logx::{loggers::{global_logger::GlobaLoggerTrait, log_levels::LogLevel}, Logger, LogxTrait};
 
 fn main() {
     // Set the default log level to Trace
@@ -32,9 +32,8 @@ fn main() {
 }
 
 mod mod_one {
-    use log_levels::LogLevel;
-    use mod_logger::ModLoggerTriat;
-    use logx::*;
+    use logx::{loggers::{mod_logger::ModLoggerTriat, log_levels::LogLevel}, Logger, LogxTrait};
+
     pub fn log_somthing() {
         let this_module = module_path!();
 
@@ -52,9 +51,7 @@ mod mod_one {
 }
 
 mod mod_two {
-    use log_levels::LogLevel;
-    use logx::*;
-    use mod_logger::ModLoggerTriat;
+    use logx::{loggers::{mod_logger::ModLoggerTriat, log_levels::LogLevel}, Logger, LogxTrait};
     pub fn log_somthing() {
         // setting the log level to Info for this specific module mod_two
         Logger::set_mod_log_level(module_path!(), LogLevel::Trace, false);
@@ -85,15 +82,14 @@ mod mod_three {
 }
 
 mod mod_four {
-    use log_levels::LogLevel;
-    use logx::*;
-    use mod_logger::ModLoggerTriat;
+    use logx::{loggers::{mod_logger::ModLoggerTriat, log_levels::LogLevel}, Logger, LogxTrait};
+    
     pub fn log_somthing() {
         // setting the log level to Info for this specific module mod_four
-        Logger::set_mod_log_level(module_path!(), LogLevel::Trace, true);
+        Logger::set_mod_log_level(module_path!(), LogLevel::Warn, true);
 
         println!("\n{:-<200}", "");
-        println!("Logging from mod_three with default log level form main.\n");
+        println!("Logging from mod_four with warn level and paranoia :P.\n");
         log_error!("This is an error message from mod_three");
         log_warn!("This is a warning message from mod_three");
         log_info!("This is an info message from mod_three");

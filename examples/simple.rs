@@ -1,7 +1,10 @@
+
+#[macro_use]
 extern crate logx;
-use global_logger::GlobaLoggerTrait;
-use log_levels::LogLevel;
-use logx::*;
+
+use logx::{loggers::{global_logger::GlobaLoggerTrait, log_levels::LogLevel}, Logger, LogxTrait};
+
+
 
 
 fn main() {
@@ -44,4 +47,6 @@ fn main() {
     log_debug!("This is a debug message");
     log_trace!("This is a trace message");
     
+
+
 }
