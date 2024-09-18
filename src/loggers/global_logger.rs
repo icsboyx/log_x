@@ -2,22 +2,17 @@ use std::{ fmt::Debug, sync::{ LazyLock, RwLock } };
 
 use super::log_levels::LogLevel;
 
-
-
 // Define global static variables for common log levels
 pub static DEFAULT_LOG_LEVEL: LazyLock<RwLock<DefaultLogLevel>> = LazyLock::new(||
     RwLock::new(DefaultLogLevel::default())
 );
 
-
-pub trait GlobaLoggerTrait {
+pub trait DefaultLoggerTrait {
     fn set_log_level(log_level: LogLevel);
     fn set_paranoia(paranoia: bool);
     fn get_log_level() -> LogLevel;
-    fn get_level_paranoia() -> bool;
+    fn get_paranoia() -> bool;
 }
-
-
 
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 pub struct DefaultLogLevel {

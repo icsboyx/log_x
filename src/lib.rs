@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 // Import necessary items
 pub mod loggers;
 pub mod terminal;
@@ -7,18 +5,17 @@ pub mod terminal;
 #[macro_use]
 pub mod macros;
 
+use std::{ fmt::{ Debug, Display }, io::Write };
 
-
-
-use std::{ fmt::{Debug, Display}, io::Write};
-
-use loggers::{global_logger::{DefaultLogLevel, GlobaLoggerTrait, DEFAULT_LOG_LEVEL}, log_levels::LogLevel, mod_logger::{ModLogger, ModLoggerTriat, MODULES_LOG_LEVEL}};
+use loggers::{
+    global_logger::{ DefaultLogLevel, DefaultLoggerTrait },
+    log_levels::LogLevel,
+    mod_logger::{ ModLogger, ModuleLoggerTrait },
+};
 use terminal::colors::Colorize;
-
 
 // Implement the Colorize trait for all types that implement Display and Debug
 impl<T: Display + Debug> Colorize for T {}
-
 
 pub trait LogxTrait {
     fn enabled(metadata: &LogMetadata) -> bool;
@@ -35,7 +32,6 @@ pub struct LogMetadata {
     line: u32,
     message: String,
 }
-
 
 impl LogMetadata {
     pub fn new(
@@ -69,7 +65,7 @@ impl LogMetadata {
     }
 
     pub fn file(&self) -> &str {
-        file!()
+        &self.file
     }
 
     pub fn line(&self) -> u32 {
@@ -79,40 +75,38 @@ impl LogMetadata {
     pub fn timestamp(&self) -> &str {
         &self.timestamp
     }
-
 }
-
-
-
 
 pub struct Logger {}
 
 impl LogxTrait for Logger {
     fn enabled(metadata: &LogMetadata) -> bool {
         let module_log_level = ModLogger::get_mod_log_level(metadata.module.as_str());
-        let default_level = DEFAULT_LOG_LEVEL.read().unwrap().default_log_level.clone();
-      if metadata.level() <= module_log_level{
-          return true;
-      }else {
-          metadata.level() <= default_level
-      }
+        let default_level = DefaultLogLevel::log_level();
+        if let Some(module_log_level) = module_log_level {
+            return metadata.level <= module_log_level;
+        }
+        metadata.level <= default_level
     }
 
     fn log(metadata: &LogMetadata) {
         if Logger::enabled(metadata) {
             if Logger::enabled(metadata) {
                 let timestamp = format!("{} - {}", metadata.timestamp(), metadata.level());
-                let paranioa = format!(" | Target: {} | File: {} | Line: {} | ",
+                let paranoia = format!(
+                    " | Target: {} | File: {} | Line: {} | ",
                     metadata.module(),
                     metadata.file(),
-                    metadata.line(),
+                    metadata.line()
                 );
-                println!(
-                    "[ {:<36} ] {}{}",
-                    timestamp,
-                    metadata.message(),
-                    if DefaultLogLevel::paranoia() || ModLogger::get_mod_paranoia(metadata.module.as_str()) { paranioa.gray() } else { "".to_string() }
-                );
+                println!("[ {:<36} ] {}{}", timestamp, metadata.message(), if
+                    DefaultLogLevel::paranoia() ||
+                    ModLogger::get_mod_paranoia(metadata.module.as_str())
+                {
+                    paranoia.gray()
+                } else {
+                    "".to_string()
+                });
             }
         }
     }
@@ -124,97 +118,38 @@ impl LogxTrait for Logger {
     }
 }
 
-
-    impl GlobaLoggerTrait for Logger {
-        fn set_log_level(log_level: LogLevel) {
-            DefaultLogLevel::set_log_level(log_level);
-        }
-
-        fn set_paranoia(paranoia: bool) {
-            DefaultLogLevel::set_paranoia(paranoia);
-        }
-
-        fn get_log_level() -> LogLevel {
-            DefaultLogLevel::log_level()
-        }
-
-        fn get_level_paranoia() -> bool {
-            DefaultLogLevel::paranoia()
-        }
+impl DefaultLoggerTrait for Logger {
+    fn set_log_level(log_level: LogLevel) {
+        DefaultLogLevel::set_log_level(log_level);
     }
 
-impl ModLoggerTriat for Logger {
+    fn set_paranoia(paranoia: bool) {
+        DefaultLogLevel::set_paranoia(paranoia);
+    }
+
+    fn get_log_level() -> LogLevel {
+        DefaultLogLevel::log_level()
+    }
+
+    fn get_paranoia() -> bool {
+        DefaultLogLevel::paranoia()
+    }
+}
+
+impl ModuleLoggerTrait for Logger {
     fn set_mod_logging(module: &str, log_level: LogLevel, paranoia: bool) {
-        match MODULES_LOG_LEVEL.write() {
-            Ok(mut modules_log_level) => {
-                modules_log_level.insert(module.to_string(), ModLogger {
-                    module: module.to_string(),
-                    log_level,
-                    paranoia,
-                });
-            }
-            Err(e) => {
-                eprintln!(
-                    "Failed to set the log level for module {} in MODULES_LOG_LEVEL: {:?}",
-                    module, e
-                );
-            }
-        }
+        ModLogger::set_log_level(module, log_level, paranoia);
     }
 
-    fn get_mod_log_level(module: &str) -> LogLevel {
-        match MODULES_LOG_LEVEL.read() {
-            Ok(modules_log_level) => {
-                match modules_log_level.get(module) {
-                    Some(module_log_level) => module_log_level.log_level.clone(),
-                    None => DEFAULT_LOG_LEVEL.read().unwrap().default_log_level.clone(),
-                }
-            }
-            Err(e) => {
-                eprintln!(
-                    "Failed to read the log level for module {} in MODULES_LOG_LEVEL: {:?}",
-                    module, e
-                );
-                DEFAULT_LOG_LEVEL.read().unwrap().default_log_level.clone()
-            }
-        }
+    fn get_mod_log_level(module: &str) -> Option<LogLevel> {
+        ModLogger::get_mod_log_level(module)
     }
 
     fn get_mod_paranoia(module: &str) -> bool {
-        match MODULES_LOG_LEVEL.read() {
-            Ok(modules_log_level) => {
-                match modules_log_level.get(module) {
-                    Some(module_log_level) => module_log_level.paranoia,
-                    None => false,
-                }
-            }
-            Err(e) => {
-                eprintln!(
-                    "Failed to read the paranoia for module {} in MODULES_LOG_LEVEL: {:?}",
-                    module, e
-                );
-                false
-            }
-        }
+        ModLogger::get_mod_paranoia(module)
     }
 
     fn get_mod_name(module: &str) -> String {
-        match MODULES_LOG_LEVEL.read() {
-            Ok(modules_log_level) => {
-                match modules_log_level.get(module) {
-                    Some(module_log_level) => module_log_level.module.clone(),
-                    None => "".to_string(),
-                }
-            }
-            Err(e) => {
-                eprintln!(
-                    "Failed to read the module name for module {} in MODULES_LOG_LEVEL: {:?}",
-                    module, e
-                );
-                "".to_string()
-            }
-        }
+        ModLogger::get_mod_name(module)
     }
-
-    
 }

@@ -9,12 +9,12 @@ use crate::terminal::colors::Color;
 // Define an enum to represent log levels
 #[derive(Clone, Debug, PartialEq, PartialOrd)]
 pub enum LogLevel {
-    Trace,
-    Debug,
-    Info,
-    Warn,
-    Error,
     Off,
+    Error,
+    Warn,
+    Info,
+    Debug,
+    Trace,
 }
 
 impl Default for LogLevel {
