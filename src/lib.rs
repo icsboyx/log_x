@@ -122,7 +122,7 @@
 //! use log_x::{
 //!     loggers::{ global_logger::{ DefaultLogLevel, DefaultLoggerTrait }, log_levels::LogLevel },
 //!     Logger,
-//!     log_xTrait,
+//!     LogxTrait,
 //! };
 //!
 //! fn main() {
@@ -157,7 +157,7 @@
 //!     use log_x::{
 //!         loggers::{ log_levels::LogLevel, mod_logger::{ ModLogger, ModuleLoggerTrait } },
 //!         Logger,
-//!         log_xTrait,
+//!         LogxTrait,
 //!     };
 //!
 //!     pub fn log_something() {
@@ -183,7 +183,7 @@
 //!     use log_x::{
 //!         loggers::{ mod_logger::ModuleLoggerTrait, log_levels::LogLevel },
 //!         Logger,
-//!         log_xTrait,
+//!         LogxTrait,
 //!     };
 //!     pub fn log_something() {
 //!         // setting the log level to Info for this specific module mod_two
@@ -225,7 +225,7 @@
 //!     use log_x::{
 //!         loggers::{ mod_logger::ModuleLoggerTrait, log_levels::LogLevel },
 //!         Logger,
-//!         log_xTrait,
+//!         LogxTrait,
 //!     };
 //!
 //!     pub fn log_something() {
@@ -327,7 +327,7 @@ use terminal::colors::Colorize;
 impl<T: Display + Debug> Colorize for T {}
 
 /// A trait for logging. Provides methods for checking if logging is enabled, logging messages, and flushing the log output.
-pub trait log_xTrait {
+pub trait LogxTrait {
     /// Checks if logging is enabled for the given log metadata.
     fn enabled(metadata: &LogMetadata) -> bool;
     /// Logs the given log metadata.
@@ -371,7 +371,6 @@ pub struct LogMetadata {
 /// - `file`: Returns the file where the log entry was generated.
 /// - `line`: Returns the line number in the file where the log entry was generated.
 /// - `timestamp`: Returns the timestamp when the log entry was created.
-
 impl LogMetadata {
     /// Creates a new `LogMetadata` instance with the given values.
     pub fn new(
@@ -419,7 +418,7 @@ impl LogMetadata {
 
 pub struct Logger {}
 
-impl log_xTrait for Logger {
+impl LogxTrait for Logger {
     /// Checks if logging is enabled for the given log metadata.
     fn enabled(metadata: &LogMetadata) -> bool {
         let module_log_level = ModLogger::get_mod_log_level(metadata.module.as_str());
