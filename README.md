@@ -99,7 +99,7 @@ fn main() {
 
 ### Output
 
-````shell
+```shell
 Setting the default log level to TRACE
  [ 2024-10-05 10:44:56 - ERROR ] This is an error message
  [ 2024-10-05 10:44:56 - WARN  ] This is a warning message
@@ -114,10 +114,10 @@ Setting the default log level to TRACE
  [ 2024-10-05 10:44:56 - ERROR ] This is an error message | Target: simple | File: examples/simple.rs | Line: 44 |
  [ 2024-10-05 10:44:56 - WARN  ] This is a warning message | Target: simple | File: examples/simple.rs | Line: 45 |
  [ 2024-10-05 10:44:56 - INFO  ] This is an info message | Target: simple | File: examples/simple.rs | Line: 46 |
-`
+```
 
 - ### Advanced Example per module logging
-The following example demonstrates how to use the `log_x` library to log messages at different log levels for different modules.
+  The following example demonstrates how to use the `log_x` library to log messages at different log levels for different modules.
 
 ```rust
 #[macro_use]
@@ -249,7 +249,7 @@ mod mod_four {
         log_trace!("This is a trace message from mod_three");
     }
 }
-````
+```
 
 # Output
 
