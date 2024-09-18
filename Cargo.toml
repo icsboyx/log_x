@@ -1,6 +1,6 @@
 [package]
-name = "logx"
-description = "The `LogX` library provides a flexible and extensible logging framework for Rust applications. It supports different log levels, module-specific logging, and customizable log output formats."
+name = "log_x"
+description = "The `Log X` library provides a flexible and extensible logging framework for Rust applications. It supports different log levels, module-specific logging, and customizable log output formats."
 version = "0.1.0"
 edition = "2021"
 license = "MIT"

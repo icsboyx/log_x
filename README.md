@@ -1,4 +1,4 @@
-# LogX
+# log_x
 
 This Rust library provides advanced logging functionality with customizable log levels, terminal colorization.
 
@@ -10,12 +10,12 @@ This Rust library provides advanced logging functionality with customizable log 
 - **Customizable Log Scope**: Define and use different log scopes: Global or Module-specific (Multiple modules can have their own log settings, or inherit form default).
 - **Paranoia Mode**: Log Messages will print out also the: file name, line and module where the log message was called.
 
-To use the `logx` library, you need to create log metadata and use the `Logger` to log messages. The library supports colorized output and paranoia mode for detailed logging.
+To use the `log_x` library, you need to create log metadata and use the `Logger` to log messages. The library supports colorized output and paranoia mode for detailed logging.
 
 ```rust
-use logx::loggers::log_levels::LogLevel;
-use logx::Logger;
-use logx::LogMetadata;
+use log_x::loggers::log_levels::LogLevel;
+use log_x::Logger;
+use log_x::LogMetadata;
 
 let metadata = LogMetadata::new(
     "2023-10-01T12:00:00Z".to_string(),
@@ -50,7 +50,7 @@ Or you can use the provided macros to log messages at different log levels.
 ## Examples
 
 - ### Simple Example
-  The following example demonstrates how to use the `logx` library to log messages at different log levels.
+  The following example demonstrates how to use the `log_x` library to log messages at different log levels.
 
 ```rust
 fn main() {
@@ -117,16 +117,16 @@ Setting the default log level to TRACE
 `
 
 - ### Advanced Example per module logging
-The following example demonstrates how to use the `logx` library to log messages at different log levels for different modules.
+The following example demonstrates how to use the `log_x` library to log messages at different log levels for different modules.
 
 ```rust
 #[macro_use]
-extern crate logx;
+extern crate log_x;
 
-use logx::{
+use log_x::{
     loggers::{ global_logger::{ DefaultLogLevel, DefaultLoggerTrait }, log_levels::LogLevel },
     Logger,
-    LogxTrait,
+    log_xTrait,
 };
 
 fn main() {
@@ -158,10 +158,10 @@ fn main() {
 }
 
 mod mod_one {
-    use logx::{
+    use log_x::{
         loggers::{ log_levels::LogLevel, mod_logger::{ ModLogger, ModuleLoggerTrait } },
         Logger,
-        LogxTrait,
+        log_xTrait,
     };
 
     pub fn log_something() {
@@ -184,10 +184,10 @@ mod mod_one {
 }
 
 mod mod_two {
-    use logx::{
+    use log_x::{
         loggers::{ mod_logger::ModuleLoggerTrait, log_levels::LogLevel },
         Logger,
-        LogxTrait,
+        log_xTrait,
     };
     pub fn log_something() {
         // setting the log level to Info for this specific module mod_two
@@ -208,7 +208,7 @@ mod mod_two {
 
 mod mod_three {
     use loggers::global_logger::DefaultLogLevel;
-    use logx::*;
+    use log_x::*;
     pub fn log_something() {
         // using the default log level form the main function
 
@@ -226,10 +226,10 @@ mod mod_three {
 }
 
 mod mod_four {
-    use logx::{
+    use log_x::{
         loggers::{ mod_logger::ModuleLoggerTrait, log_levels::LogLevel },
         Logger,
-        LogxTrait,
+        log_xTrait,
     };
 
     pub fn log_something() {

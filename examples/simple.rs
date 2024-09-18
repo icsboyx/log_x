@@ -1,10 +1,10 @@
 #[macro_use]
-extern crate logx;
+extern crate log_x;
 
-use logx::{
+use log_x::{
     loggers::{ global_logger::DefaultLoggerTrait, log_levels::LogLevel },
     Logger,
-    LogxTrait,
+    log_xTrait,
 };
 
 fn main() {

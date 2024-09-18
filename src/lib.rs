@@ -1,16 +1,16 @@
-//! # Logx Library
+//! # log_x Library
 //!
-//! The `logx` library provides a flexible and extensible logging framework for Rust applications.
+//! The `log_x` library provides a flexible and extensible logging framework for Rust applications.
 //! It supports different log levels, module-specific logging, and customizable log output formats.
 //!
 //! ## Usage
 //!
-//! To use the `logx` library, you need to create log metadata and use the `Logger` to log messages. The library supports colorized output and paranoia mode for detailed logging.
+//! To use the `log_x` library, you need to create log metadata and use the `Logger` to log messages. The library supports colorized output and paranoia mode for detailed logging.
 //!
 //! ```rust
-//! use logx::loggers::log_levels::LogLevel;
-//! use logx::Logger;
-//! use logx::LogMetadata;
+//! use log_x::loggers::log_levels::LogLevel;
+//! use log_x::Logger;
+//! use log_x::LogMetadata;
 //!
 //! let metadata = LogMetadata::new(
 //!     "2023-10-01T12:00:00Z".to_string(),
@@ -45,7 +45,7 @@
 //! ## Examples
 //!
 //! - ### Simple Example
-//! The following example demonstrates how to use the `logx` library to log messages at different log levels.
+//! The following example demonstrates how to use the `log_x` library to log messages at different log levels.
 //!
 //! ```rust
 //! fn main() {
@@ -113,16 +113,16 @@
 
 //!
 //! - ### Advanced Example per module logging
-//! The following example demonstrates how to use the `logx` library to log messages at different log levels for different modules.
+//! The following example demonstrates how to use the `log_x` library to log messages at different log levels for different modules.
 //!
 //! ```rust
 //! #[macro_use]
-//! extern crate logx;
+//! extern crate log_x;
 //!
-//! use logx::{
+//! use log_x::{
 //!     loggers::{ global_logger::{ DefaultLogLevel, DefaultLoggerTrait }, log_levels::LogLevel },
 //!     Logger,
-//!     LogxTrait,
+//!     log_xTrait,
 //! };
 //!
 //! fn main() {
@@ -154,10 +154,10 @@
 //! }
 //!
 //! mod mod_one {
-//!     use logx::{
+//!     use log_x::{
 //!         loggers::{ log_levels::LogLevel, mod_logger::{ ModLogger, ModuleLoggerTrait } },
 //!         Logger,
-//!         LogxTrait,
+//!         log_xTrait,
 //!     };
 //!
 //!     pub fn log_something() {
@@ -180,10 +180,10 @@
 //! }
 //!
 //! mod mod_two {
-//!     use logx::{
+//!     use log_x::{
 //!         loggers::{ mod_logger::ModuleLoggerTrait, log_levels::LogLevel },
 //!         Logger,
-//!         LogxTrait,
+//!         log_xTrait,
 //!     };
 //!     pub fn log_something() {
 //!         // setting the log level to Info for this specific module mod_two
@@ -204,7 +204,7 @@
 //!
 //! mod mod_three {
 //!     use loggers::global_logger::DefaultLogLevel;
-//!     use logx::*;
+//!     use log_x::*;
 //!     pub fn log_something() {
 //!         // using the default log level form the main function
 //!
@@ -222,10 +222,10 @@
 //! }
 //!
 //! mod mod_four {
-//!     use logx::{
+//!     use log_x::{
 //!         loggers::{ mod_logger::ModuleLoggerTrait, log_levels::LogLevel },
 //!         Logger,
-//!         LogxTrait,
+//!         log_xTrait,
 //!     };
 //!
 //!     pub fn log_something() {
@@ -327,7 +327,7 @@ use terminal::colors::Colorize;
 impl<T: Display + Debug> Colorize for T {}
 
 /// A trait for logging. Provides methods for checking if logging is enabled, logging messages, and flushing the log output.
-pub trait LogxTrait {
+pub trait log_xTrait {
     /// Checks if logging is enabled for the given log metadata.
     fn enabled(metadata: &LogMetadata) -> bool;
     /// Logs the given log metadata.
@@ -419,7 +419,7 @@ impl LogMetadata {
 
 pub struct Logger {}
 
-impl LogxTrait for Logger {
+impl log_xTrait for Logger {
     /// Checks if logging is enabled for the given log metadata.
     fn enabled(metadata: &LogMetadata) -> bool {
         let module_log_level = ModLogger::get_mod_log_level(metadata.module.as_str());

@@ -1,10 +1,10 @@
 #[macro_use]
-extern crate logx;
+extern crate log_x;
 
-use logx::{
+use log_x::{
     loggers::{ global_logger::{ DefaultLogLevel, DefaultLoggerTrait }, log_levels::LogLevel },
     Logger,
-    LogxTrait,
+    log_xTrait,
 };
 
 fn main() {
@@ -36,10 +36,10 @@ fn main() {
 }
 
 mod mod_one {
-    use logx::{
+    use log_x::{
         loggers::{ log_levels::LogLevel, mod_logger::{ ModLogger, ModuleLoggerTrait } },
         Logger,
-        LogxTrait,
+        log_xTrait,
     };
 
     pub fn log_something() {
@@ -62,10 +62,10 @@ mod mod_one {
 }
 
 mod mod_two {
-    use logx::{
+    use log_x::{
         loggers::{ mod_logger::ModuleLoggerTrait, log_levels::LogLevel },
         Logger,
-        LogxTrait,
+        log_xTrait,
     };
     pub fn log_something() {
         // setting the log level to Info for this specific module mod_two
@@ -86,7 +86,7 @@ mod mod_two {
 
 mod mod_three {
     use loggers::global_logger::DefaultLogLevel;
-    use logx::*;
+    use log_x::*;
     pub fn log_something() {
         // using the default log level form the main function
 
@@ -104,10 +104,10 @@ mod mod_three {
 }
 
 mod mod_four {
-    use logx::{
+    use log_x::{
         loggers::{ mod_logger::ModuleLoggerTrait, log_levels::LogLevel },
         Logger,
-        LogxTrait,
+        log_xTrait,
     };
 
     pub fn log_something() {

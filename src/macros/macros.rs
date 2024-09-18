@@ -83,10 +83,10 @@
 macro_rules! log_error {
     // Pattern for $target and $message without any additional arguments
     ($message:expr) => {
-        logx::Logger::log(
-            &logx::LogMetadata::new(
+        log_x::Logger::log(
+            &log_x::LogMetadata::new(
                 timestamp!(),
-                logx::loggers::log_levels::LogLevel::Error,
+                log_x::loggers::log_levels::LogLevel::Error,
                 file!(),
                 module_path!().to_string(), 
                 line!(),
@@ -100,10 +100,10 @@ macro_rules! log_error {
         $message:expr,
         $($arg:tt)*
     ) => {
-        logx::Logger::log(
-            &logx::LogMetadata::new(
+        log_x::Logger::log(
+            &log_x::LogMetadata::new(
                 timestamp!(),
-                logx::loggers::log_levels::LogLevel::Error,
+                log_x::loggers::log_levels::LogLevel::Error,
                 file!(),
                 module_path!().to_string(), 
                 line!(),
@@ -116,10 +116,10 @@ macro_rules! log_error {
 #[macro_export]
 macro_rules! log_warn {
     ($message:expr) => {
-        logx::Logger::log(
-            &logx::LogMetadata::new(
+        log_x::Logger::log(
+            &log_x::LogMetadata::new(
                 timestamp!(),
-                logx::loggers::log_levels::LogLevel::Warn,
+                log_x::loggers::log_levels::LogLevel::Warn,
                 file!(),
                 module_path!().to_string(), 
                 line!(),
@@ -133,10 +133,10 @@ macro_rules! log_warn {
         $message:expr,
         $($arg:tt)*
     ) => {
-        logx::Logger::log(
-            &logx::LogMetadata::new(
+        log_x::Logger::log(
+            &log_x::LogMetadata::new(
                 timestamp!(),
-                logx::loggers::log_levels::LogLevel::Warn,
+                log_x::loggers::log_levels::LogLevel::Warn,
                 file!(),
                 module_path!().to_string(), 
                 line!(),
@@ -149,10 +149,10 @@ macro_rules! log_warn {
 #[macro_export]
 macro_rules! log_info {
     ($message:expr) => {
-        logx::Logger::log(
-            &logx::LogMetadata::new(
+        log_x::Logger::log(
+            &log_x::LogMetadata::new(
                 timestamp!(),
-                logx::loggers::log_levels::LogLevel::Info,
+                log_x::loggers::log_levels::LogLevel::Info,
                 file!(),
                 module_path!().to_string(), 
                 line!(),
@@ -166,10 +166,10 @@ macro_rules! log_info {
         $message:expr,
         $($arg:tt)*
     ) => {
-        logx::Logger::log(
-            &logx::LogMetadata::new(
+        log_x::Logger::log(
+            &log_x::LogMetadata::new(
                 timestamp!(),
-                logx::loggers::log_levels::LogLevel::Info,
+                log_x::loggers::log_levels::LogLevel::Info,
                 file!(),
                 module_path!().to_string(), 
                 line!(),
@@ -182,10 +182,10 @@ macro_rules! log_info {
 #[macro_export]
 macro_rules! log_debug {
     ($message:expr) => {
-        logx::Logger::log(
-            &logx::LogMetadata::new(
+        log_x::Logger::log(
+            &log_x::LogMetadata::new(
                 timestamp!(),
-                logx::loggers::log_levels::LogLevel::Debug,
+                log_x::loggers::log_levels::LogLevel::Debug,
                 file!(),
                 module_path!().to_string(), 
                 line!(),
@@ -199,10 +199,10 @@ macro_rules! log_debug {
         $message:expr,
         $($arg:tt)*
     ) => {
-        logx::Logger::log(
-            &logx::LogMetadata::new(
+        log_x::Logger::log(
+            &log_x::LogMetadata::new(
                 timestamp!(),
-                logx::loggers::log_levels::LogLevel::Debug,
+                log_x::loggers::log_levels::LogLevel::Debug,
                 file!(),
                 module_path!().to_string(), 
                 line!(),
@@ -215,10 +215,10 @@ macro_rules! log_debug {
 #[macro_export]
 macro_rules! log_trace {
     ($message:expr) => {
-        logx::Logger::log(
-            &logx::LogMetadata::new(
+        log_x::Logger::log(
+            &log_x::LogMetadata::new(
                 timestamp!(),
-                logx::loggers::log_levels::LogLevel::Trace,
+                log_x::loggers::log_levels::LogLevel::Trace,
                 file!(),
                 module_path!().to_string(), 
                 line!(),
@@ -232,10 +232,10 @@ macro_rules! log_trace {
         $message:expr,
         $($arg:tt)*
     ) => {
-        logx::Logger::log(
-            &logx::LogMetadata::new(
+        log_x::Logger::log(
+            &log_x::LogMetadata::new(
                 timestamp!(),
-                logx::loggers::log_levels::LogLevel::Trace,
+                log_x::loggers::log_levels::LogLevel::Trace,
                 file!(),
                 module_path!().to_string(), 
                 line!(),
