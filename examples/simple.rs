@@ -1,11 +1,7 @@
 #[macro_use]
 extern crate log_x;
 
-use log_x::{
-    loggers::{ global_logger::DefaultLoggerTrait, log_levels::LogLevel },
-    Logger,
-    LogxTrait,
-};
+use log_x::{ loggers::{ global_logger::DefaultLoggerTrait, log_levels::LogLevel }, Logger };
 
 fn main() {
     // Set the default log level to Trace

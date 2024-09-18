@@ -122,7 +122,7 @@
 //! use log_x::{
 //!     loggers::{ global_logger::{ DefaultLogLevel, DefaultLoggerTrait }, log_levels::LogLevel },
 //!     Logger,
-//!     LogxTrait,
+//!
 //! };
 //!
 //! fn main() {
@@ -157,7 +157,7 @@
 //!     use log_x::{
 //!         loggers::{ log_levels::LogLevel, mod_logger::{ ModLogger, ModuleLoggerTrait } },
 //!         Logger,
-//!         LogxTrait,
+//!
 //!     };
 //!
 //!     pub fn log_something() {
@@ -183,7 +183,7 @@
 //!     use log_x::{
 //!         loggers::{ mod_logger::ModuleLoggerTrait, log_levels::LogLevel },
 //!         Logger,
-//!         LogxTrait,
+//!
 //!     };
 //!     pub fn log_something() {
 //!         // setting the log level to Info for this specific module mod_two
@@ -225,7 +225,7 @@
 //!     use log_x::{
 //!         loggers::{ mod_logger::ModuleLoggerTrait, log_levels::LogLevel },
 //!         Logger,
-//!         LogxTrait,
+//!
 //!     };
 //!
 //!     pub fn log_something() {
@@ -418,9 +418,9 @@ impl LogMetadata {
 
 pub struct Logger {}
 
-impl LogxTrait for Logger {
+impl Logger {
     /// Checks if logging is enabled for the given log metadata.
-    fn enabled(metadata: &LogMetadata) -> bool {
+    pub fn enabled(metadata: &LogMetadata) -> bool {
         let module_log_level = ModLogger::get_mod_log_level(metadata.module.as_str());
         let default_level = DefaultLogLevel::log_level();
         if let Some(module_log_level) = module_log_level {
@@ -429,7 +429,7 @@ impl LogxTrait for Logger {
         metadata.level <= default_level
     }
     /// Logs the given log metadata.
-    fn log(metadata: &LogMetadata) {
+    pub fn log(metadata: &LogMetadata) {
         if Logger::enabled(metadata) {
             if Logger::enabled(metadata) {
                 let timestamp = format!("{} - {}", metadata.timestamp(), metadata.level());
@@ -451,7 +451,7 @@ impl LogxTrait for Logger {
         }
     }
     /// Flushes the log output.
-    fn flush() {
+    pub fn flush() {
         match std::io::stdout().flush() {
             Ok(_) => {}
             Err(e) => eprintln!("Failed to flush stdout: {:?}", e),

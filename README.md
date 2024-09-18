@@ -126,7 +126,7 @@ extern crate log_x;
 use log_x::{
     loggers::{ global_logger::{ DefaultLogLevel, DefaultLoggerTrait }, log_levels::LogLevel },
     Logger,
-    LogxTrait,
+
 };
 
 fn main() {
@@ -161,7 +161,7 @@ mod mod_one {
     use log_x::{
         loggers::{ log_levels::LogLevel, mod_logger::{ ModLogger, ModuleLoggerTrait } },
         Logger,
-        LogxTrait,
+
     };
 
     pub fn log_something() {
@@ -187,7 +187,7 @@ mod mod_two {
     use log_x::{
         loggers::{ mod_logger::ModuleLoggerTrait, log_levels::LogLevel },
         Logger,
-        LogxTrait,
+
     };
     pub fn log_something() {
         // setting the log level to Info for this specific module mod_two
@@ -229,7 +229,7 @@ mod mod_four {
     use log_x::{
         loggers::{ mod_logger::ModuleLoggerTrait, log_levels::LogLevel },
         Logger,
-        LogxTrait,
+
     };
 
     pub fn log_something() {
