@@ -297,15 +297,15 @@ Logging from mod_four with WARN level and paranoia true :P.
 
 ## Modules
 
-- [`loggers`](loggers/index.html): Contains the core logging functionality, including global and module-specific loggers.
-- [`terminal`](terminal/index.html): Provides utilities for terminal output, such as colorizing log messages.
-- [`macros`](macros/index.html): Contains macros to simplify logging operations.
+- **loggers**: Contains the core logging functionality, including global and module-specific loggers.
+- **terminal**: Provides utilities for terminal output, such as colorizing log messages.
+- **macros**: Contains macros to simplify logging operations.
 
 ## Macros
 
-- [`log_error!`](macros/index.html#log_error): Logs an error message.
-- [`log_warn!`](macros/index.html#log_warn): Logs a warning message.
-- [`log_info!`](macros/index.html#log_info): Logs an informational message.
-- [`log_debug!`](macros/index.html#log_debug): Logs a debug message.
-- [`log_trace!`](macros/index.html#log_trace): Logs a trace message.
-- [`timestamp!`](macros/index.html#timestamp): Generates a formatted timestamp string representing the current time.
+- **log_error** Logs an error message.
+- **log_warn!** Logs a warning message.
+- **log_info!** Logs an informational message.
+- **log_debug!** Logs a debug message.
+- **log_trace!** Logs a trace message.
+- **timestamp!** Generates a formatted timestamp string representing the current time.
