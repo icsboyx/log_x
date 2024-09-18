@@ -1,3 +1,38 @@
+//! This module defines a global logger with adjustable log levels and paranoia settings.
+//!
+//! # Overview
+//!
+//! The `global_logger` module provides a global static logger that can be used to set and get
+//! log levels and paranoia settings across the application. It uses a `LazyLock` to initialize
+//! the logger lazily and an `RwLock` to ensure thread-safe read and write access to the logger's
+//! state.
+//!
+//! # Structures
+//!
+//! - `DefaultLogLevel`: Represents the default log level and paranoia settings.
+//!
+//! # Traits
+//!
+//! - `DefaultLoggerTrait`: Defines the interface for setting and getting log levels and paranoia settings.
+//!
+//! # Static Variables
+//!
+//! - `DEFAULT_LOG_LEVEL`: A global static variable that holds the default log level and paranoia settings.
+//!
+//! # Functions
+//! - [`DefaultLogLevel::set_log_level`](struct.DefaultLogLevel.html#method.set_log_level): Sets the global log level.
+//! - [`DefaultLogLevel::set_paranoia`](struct.DefaultLogLevel.html#method.set_paranoia): Sets the global paranoia setting.
+//! - [`DefaultLogLevel::get_log_level`](struct.DefaultLogLevel.html#method.get_log_level): Gets the global log level.
+//! - [`DefaultLogLevel::get_paranoia`](struct.DefaultLogLevel.html#method.get_paranoia): Gets the global paranoia setting.
+//!
+//!
+//! # Error Handling
+//!
+//! The functions that modify or read the global logger state handle potential errors by printing
+//! error messages to the standard error output.
+//!
+//!
+
 use std::{ fmt::Debug, sync::{ LazyLock, RwLock } };
 
 use super::log_levels::LogLevel;
@@ -8,9 +43,13 @@ pub static DEFAULT_LOG_LEVEL: LazyLock<RwLock<DefaultLogLevel>> = LazyLock::new(
 );
 
 pub trait DefaultLoggerTrait {
+    /// Sets the global log level.
     fn set_log_level(log_level: LogLevel);
+    /// Sets the global paranoia setting.
     fn set_paranoia(paranoia: bool);
+    /// Gets the current global log level.
     fn get_log_level() -> LogLevel;
+    /// Gets the current global paranoia setting.
     fn get_paranoia() -> bool;
 }
 
@@ -21,6 +60,7 @@ pub struct DefaultLogLevel {
 }
 
 impl Default for DefaultLogLevel {
+    /// Returns the default log level and paranoia settings.
     fn default() -> Self {
         DefaultLogLevel {
             default_log_level: LogLevel::Off,
@@ -30,6 +70,7 @@ impl Default for DefaultLogLevel {
 }
 
 impl DefaultLogLevel {
+    /// Sets the global log level.
     pub fn set_log_level(log_level: LogLevel) {
         match DEFAULT_LOG_LEVEL.write() {
             Ok(mut default_log_level) => {
@@ -43,7 +84,7 @@ impl DefaultLogLevel {
             }
         }
     }
-
+    /// Sets the global paranoia setting.
     pub fn set_paranoia(paranoia: bool) {
         match DEFAULT_LOG_LEVEL.write() {
             Ok(mut default_log_level) => {
@@ -54,7 +95,7 @@ impl DefaultLogLevel {
             }
         }
     }
-
+    /// Gets the current global log level.
     pub fn log_level() -> LogLevel {
         match DEFAULT_LOG_LEVEL.read() {
             Ok(default_log_level) => default_log_level.default_log_level.clone(),
@@ -67,7 +108,7 @@ impl DefaultLogLevel {
             }
         }
     }
-
+    /// Gets the current global paranoia setting.
     pub fn paranoia() -> bool {
         match DEFAULT_LOG_LEVEL.read() {
             Ok(default_log_level) => default_log_level.paranoia,

@@ -1,27 +1,67 @@
+//! This module provides functionality for managing module-specific log levels and paranoia settings.
+//!
+//! It defines a global static variable `MODULES_LOG_LEVEL` which is a thread-safe, lazily-initialized
+//! `HashMap` that stores `ModLogger` instances for different modules. The `ModLogger` struct contains
+//! the module name, log level, and paranoia flag.
+//!
+//! The [`ModuleLoggerTrait`](trait.ModuleLoggerTrait.html) trait defines the following methods for managing module-specific logging:
+//!
+//!
+//! - `set_mod_logging(module: &str, log_level: LogLevel, paranoia: bool)`: Sets the log level and paranoia
+//!   flag for a specific module.
+//! - `get_mod_name(module: &str) -> String`: Retrieves the name of the module.
+//! - `get_mod_log_level(module: &str) -> Option<LogLevel>`: Retrieves the log level for a specific module.
+//! - `get_mod_paranoia(module: &str) -> bool`: Retrieves the paranoia flag for a specific module.
+//!
+//! The [`ModLogger`](struct.ModLogger.html) struct implements the `Default` trait, providing default values for its fields.
+//!
+//! The `ModLogger` struct also provides the following methods for managing module-specific logging:
+//!
+//! - `set_log_level(module: &str, log_level: LogLevel, paranoia: bool)`: Sets the log level and paranoia
+//!   flag for a specific module and updates the `MODULES_LOG_LEVEL` map.
+//! - `get_mod_name(module: &str) -> String`: Retrieves the name of the module from the `MODULES_LOG_LEVEL` map.
+//! - `get_mod_log_level(module: &str) -> Option<LogLevel>`: Retrieves the log level for a specific module
+//!   from the `MODULES_LOG_LEVEL` map.
+//! - `get_mod_paranoia(module: &str) -> bool`: Retrieves the paranoia flag for a specific module from the
+//!   `MODULES_LOG_LEVEL` map.
+//!
+//! Error handling is performed using `eprintln!` to print error messages if the read or write lock on
+//! `MODULES_LOG_LEVEL` fails.
 use std::{ collections::HashMap, sync::{ LazyLock, RwLock } };
 
 use super::log_levels::LogLevel;
 
 // Define a global static variable for module-specific log levels
+/// A global static variable that holds module-specific log levels and paranoia settings.
 pub static MODULES_LOG_LEVEL: LazyLock<RwLock<HashMap<String, ModLogger>>> = LazyLock::new(||
     RwLock::new(HashMap::new())
 );
 
+/// A trait for managing module-specific log levels and paranoia settings.
 pub trait ModuleLoggerTrait {
+    /// Sets the log level and paranoia flag for a specific module.
     fn set_mod_logging(module: &str, log_level: LogLevel, paranoia: bool);
+    /// Retrieves the name of the module.
     fn get_mod_name(module: &str) -> String;
+    /// Retrieves the log level for a specific module. Returns `None` if the module is not found.
     fn get_mod_log_level(module: &str) -> Option<LogLevel>;
+    /// Retrieves the paranoia flag for a specific module.
     fn get_mod_paranoia(module: &str) -> bool;
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 pub struct ModLogger {
+    /// The name of the module.
     pub module: String,
+    /// The log level for the module.
     pub log_level: LogLevel,
+    /// The paranoia flag for the module.
     pub paranoia: bool,
 }
 
 impl Default for ModLogger {
+    /// Returns the default log level and paranoia settings.
+    /// The module name is set to an empty string, log level to `LogLevel::Off`, and paranoia to `false`.
     fn default() -> Self {
         ModLogger {
             module: "".to_string(),
@@ -32,6 +72,7 @@ impl Default for ModLogger {
 }
 
 impl ModLogger {
+    /// Sets the log level and paranoia flag for a specific module.
     pub fn set_log_level(module: &str, log_level: LogLevel, paranoia: bool) {
         match MODULES_LOG_LEVEL.write() {
             Ok(mut modules_log_level) => {
@@ -51,6 +92,7 @@ impl ModLogger {
         }
     }
 
+    /// Retrieves the name of the module.
     pub fn get_mod_name(module: &str) -> String {
         match MODULES_LOG_LEVEL.read() {
             Ok(modules_log_level) => {
@@ -70,6 +112,7 @@ impl ModLogger {
         }
     }
 
+    /// Retrieves the log level for a specific module. Returns `None` if the module is not found.
     pub fn get_mod_log_level(module: &str) -> Option<LogLevel> {
         match MODULES_LOG_LEVEL.read() {
             Ok(modules_log_level) => {
@@ -89,6 +132,7 @@ impl ModLogger {
         }
     }
 
+    /// Retrieves the paranoia flag for a specific module.
     pub fn get_mod_paranoia(module: &str) -> bool {
         match MODULES_LOG_LEVEL.read() {
             Ok(modules_log_level) => {

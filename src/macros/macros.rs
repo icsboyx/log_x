@@ -1,5 +1,84 @@
-
-
+//! This module provides a set of logging macros for different log levels and a macro to generate a formatted timestamp.
+//!
+//! # Macros
+//!
+//! - `log_error!`: Logs an error message.
+//! - `log_warn!`: Logs a warning message.
+//! - `log_info!`: Logs an informational message.
+//! - `log_debug!`: Logs a debug message.
+//! - `log_trace!`: Logs a trace message.
+//! - `timestamp!`: Generates a formatted timestamp string representing the current time.
+//!
+//! ## `log_error!` Macro
+//!
+//! Logs an error message with optional format arguments.
+//!
+//! ### Usage
+//!
+//! ```rust
+//! log_error!("An error occurred");
+//! log_error!("Error: {}", error_message);
+//! ```
+//!
+//! ## `log_warn!` Macro
+//!
+//! Logs a warning message with optional format arguments.
+//!
+//! ### Usage
+//!
+//! ```rust
+//! log_warn!("This is a warning");
+//! log_warn!("Warning: {}", warning_message);
+//! ```
+//!
+//! ## `log_info!` Macro
+//!
+//! Logs an informational message with optional format arguments.
+//!
+//! ### Usage
+//!
+//! ```rust
+//! log_info!("Informational message");
+//! log_info!("Info: {}", info_message);
+//! ```
+//!
+//! ## `log_debug!` Macro
+//!
+//! Logs a debug message with optional format arguments.
+//!
+//! ### Usage
+//!
+//! ```rust
+//! log_debug!("Debugging message");
+//! log_debug!("Debug: {}", debug_message);
+//! ```
+//!
+//! ## `log_trace!` Macro
+//!
+//! Logs a trace message with optional format arguments.
+//!
+//! ### Usage
+//!
+//! ```rust
+//! log_trace!("Trace message");
+//! log_trace!("Trace: {}", trace_message);
+//! ```
+//!
+//! ## `timestamp!` Macro
+//!
+//! Generates a formatted timestamp string representing the current time.
+//!
+//! ### Usage
+//!
+//! ```rust
+//! let current_timestamp = timestamp!();
+//! println!("Current Timestamp: {}", current_timestamp);
+//! ```
+//!
+//! ### Panics
+//!
+//! This macro will panic if the system time is before the Unix epoch (1970-01-01 00:00:00 UTC),
+//! which would cause the duration calculation to fail.
 #[macro_export]
 macro_rules! log_error {
     // Pattern for $target and $message without any additional arguments
