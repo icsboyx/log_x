@@ -7,7 +7,7 @@
 //!
 //! To use the `log_x` library, you need to create log metadata and use the `Logger` to log messages. The library supports colorized output and paranoia mode for detailed logging.
 //!
-//! ```no_run
+//! ```
 //! use log_x::loggers::log_levels::LogLevel;
 //! use log_x::Logger;
 //! use log_x::LogMetadata;
@@ -24,7 +24,12 @@
 //! Logger::log(&metadata);
 //! ```
 //! Or you can use the provided macros to log messages at different log levels.
-//! ```no_run
+//! ```
+//!  use log_x::{log_error, log_warn, log_info, log_debug, log_trace, timestamp};
+//!  use log_x::loggers::log_levels::LogLevel;
+//!  use log_x::Logger;
+//!  use log_x::LogMetadata;
+//!
 //!  log_error!("This is an error message");
 //!  log_warn!("This is a warning message");
 //!  log_info!("This is an info message");
@@ -47,7 +52,11 @@
 //! - ### Simple Example
 //! The following example demonstrates how to use the `log_x` library to log messages at different log levels.
 //!
-//! ```no_run
+//! ```
+//! #[macro_use]
+//! extern crate log_x;
+//! use log_x::{ loggers::{ global_logger::DefaultLoggerTrait, log_levels::LogLevel }, Logger };
+//!
 //! fn main() {
 //!     // Set the default log level to Trace
 //!     // all the log messages will be printed
@@ -115,7 +124,7 @@
 //! - ### Advanced Example per module logging
 //! The following example demonstrates how to use the `log_x` library to log messages at different log levels for different modules.
 //!
-//! ```no_run
+//! ```
 //! #[macro_use]
 //! extern crate log_x;
 //!

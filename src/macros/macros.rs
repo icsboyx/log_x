@@ -15,9 +15,14 @@
 //!
 //! ### Usage
 //!
-//! ```no_run
+//! ```
+//! use log_x::{log_error, timestamp};
+//! use log_x::loggers::log_levels::LogLevel;
+//! use log_x::Logger;
+//! use log_x::LogMetadata;
+//!
 //! log_error!("An error occurred");
-//! log_error!("Error: {}", error_message);
+//! log_error!("Error: {}", timestamp!());
 //! ```
 //!
 //! ## `log_warn!` Macro
@@ -26,9 +31,14 @@
 //!
 //! ### Usage
 //!
-//! ```no_run
+//! ```
+//! use log_x::{log_warn, timestamp};
+//! use log_x::loggers::log_levels::LogLevel;
+//! use log_x::Logger;
+//! use log_x::LogMetadata;
+//!
 //! log_warn!("This is a warning");
-//! log_warn!("Warning: {}", warning_message);
+//! log_warn!("Warning: {}", timestamp!());
 //! ```
 //!
 //! ## `log_info!` Macro
@@ -37,9 +47,13 @@
 //!
 //! ### Usage
 //!
-//! ```no_run
+//! ```
+//! use log_x::{log_info, timestamp};
+//! use log_x::loggers::log_levels::LogLevel;
+//! use log_x::Logger;
+//!
 //! log_info!("Informational message");
-//! log_info!("Info: {}", info_message);
+//! log_info!("Info: {}", timestamp!());
 //! ```
 //!
 //! ## `log_debug!` Macro
@@ -48,9 +62,13 @@
 //!
 //! ### Usage
 //!
-//! ```no_run
+//! ```
+//! use log_x::{log_debug, timestamp};
+//! use log_x::loggers::log_levels::LogLevel;
+//! use log_x::Logger;
+//!
 //! log_debug!("Debugging message");
-//! log_debug!("Debug: {}", debug_message);
+//! log_debug!("Debug: {}", timestamp!());
 //! ```
 //!
 //! ## `log_trace!` Macro
@@ -59,9 +77,13 @@
 //!
 //! ### Usage
 //!
-//! ```no_run
+//! ```
+//! use log_x::{log_trace, timestamp};
+//! use log_x::loggers::log_levels::LogLevel;
+//! use log_x::Logger;
+//!
 //! log_trace!("Trace message");
-//! log_trace!("Trace: {}", trace_message);
+//! log_trace!("Trace: {}", timestamp!());
 //! ```
 //!
 //! ## `timestamp!` Macro
@@ -70,9 +92,11 @@
 //!
 //! ### Usage
 //!
-//! ```no_run
+//! ```
+//! use log_x::timestamp;
 //! let current_timestamp = timestamp!();
-//! println!("Current Timestamp: {}", current_timestamp);
+//!
+//! println!("Current Timestamp: {}", timestamp!());
 //! ```
 //!
 //! ### Panics
@@ -81,8 +105,8 @@
 //! which would cause the duration calculation to fail.
 #[macro_export]
 macro_rules! log_error {
-    // Pattern for $target and $message without any additional arguments
-    ($message:expr) => {
+    // Print empty message for error log
+    () => {
         log_x::Logger::log(
             &log_x::LogMetadata::new(
                 timestamp!(),
@@ -90,16 +114,13 @@ macro_rules! log_error {
                 file!(),
                 module_path!().to_string(), 
                 line!(),
-                $message.to_string()
+                "".to_string()
             )
         );
     };
 
-    // Pattern for $target, $message, and additional format arguments
-    (
-        $message:expr,
-        $($arg:tt)*
-    ) => {
+    // Pattern for error log message with format arguments
+    ($($arg:tt)*) => {
         log_x::Logger::log(
             &log_x::LogMetadata::new(
                 timestamp!(),
@@ -107,15 +128,15 @@ macro_rules! log_error {
                 file!(),
                 module_path!().to_string(), 
                 line!(),
-                format!($message, $($arg)*)
+                format!($($arg)*)
             )
         );
     };
 }
-
 #[macro_export]
 macro_rules! log_warn {
-    ($message:expr) => {
+    // Print empty message for warning log
+    () => {
         log_x::Logger::log(
             &log_x::LogMetadata::new(
                 timestamp!(),
@@ -123,16 +144,13 @@ macro_rules! log_warn {
                 file!(),
                 module_path!().to_string(), 
                 line!(),
-                $message.to_string()
+                "".to_string()
             )
         );
     };
 
-    (
-        $target:expr,
-        $message:expr,
-        $($arg:tt)*
-    ) => {
+    // Pattern for warning log message with format arguments
+    ($($arg:tt)*) => {
         log_x::Logger::log(
             &log_x::LogMetadata::new(
                 timestamp!(),
@@ -140,7 +158,7 @@ macro_rules! log_warn {
                 file!(),
                 module_path!().to_string(), 
                 line!(),
-                format!($message, $($arg)*)
+                format!($($arg)*)
             )
         );
     };
@@ -148,7 +166,8 @@ macro_rules! log_warn {
 
 #[macro_export]
 macro_rules! log_info {
-    ($message:expr) => {
+    // Print empty message for info log
+    () => {
         log_x::Logger::log(
             &log_x::LogMetadata::new(
                 timestamp!(),
@@ -156,16 +175,13 @@ macro_rules! log_info {
                 file!(),
                 module_path!().to_string(), 
                 line!(),
-                $message.to_string()
+                "".to_string()
             )
         );
     };
 
-    (
-        $target:expr,
-        $message:expr,
-        $($arg:tt)*
-    ) => {
+    // Pattern for info log message with format arguments
+    ($($arg:tt)*) => {
         log_x::Logger::log(
             &log_x::LogMetadata::new(
                 timestamp!(),
@@ -173,7 +189,7 @@ macro_rules! log_info {
                 file!(),
                 module_path!().to_string(), 
                 line!(),
-                format!($message, $($arg)*)
+                format!($($arg)*)
             )
         );
     };
@@ -181,7 +197,8 @@ macro_rules! log_info {
 
 #[macro_export]
 macro_rules! log_debug {
-    ($message:expr) => {
+    // Print empty message for debug log
+    () => {
         log_x::Logger::log(
             &log_x::LogMetadata::new(
                 timestamp!(),
@@ -189,16 +206,13 @@ macro_rules! log_debug {
                 file!(),
                 module_path!().to_string(), 
                 line!(),
-                $message.to_string()
+                "".to_string()
             )
         );
     };
 
-    (
-        $target:expr,
-        $message:expr,
-        $($arg:tt)*
-    ) => {
+    // Pattern for debug log message with format arguments
+    ($($arg:tt)*) => {
         log_x::Logger::log(
             &log_x::LogMetadata::new(
                 timestamp!(),
@@ -206,7 +220,7 @@ macro_rules! log_debug {
                 file!(),
                 module_path!().to_string(), 
                 line!(),
-                format!($message, $($arg)*)
+                format!($($arg)*)
             )
         );
     };
@@ -214,7 +228,8 @@ macro_rules! log_debug {
 
 #[macro_export]
 macro_rules! log_trace {
-    ($message:expr) => {
+    // Print empty message for trace log
+    () => {
         log_x::Logger::log(
             &log_x::LogMetadata::new(
                 timestamp!(),
@@ -222,16 +237,13 @@ macro_rules! log_trace {
                 file!(),
                 module_path!().to_string(), 
                 line!(),
-                $message.to_string()
+                "".to_string()
             )
         );
     };
 
-    (
-        $target:expr,
-        $message:expr,
-        $($arg:tt)*
-    ) => {
+    // Pattern for trace log message with format arguments
+    ($($arg:tt)*) => {
         log_x::Logger::log(
             &log_x::LogMetadata::new(
                 timestamp!(),
@@ -239,7 +251,7 @@ macro_rules! log_trace {
                 file!(),
                 module_path!().to_string(), 
                 line!(),
-                format!($message, $($arg)*)
+                format!($($arg)*)
             )
         );
     };
