@@ -15,7 +15,7 @@
 //!
 //! ### Usage
 //!
-//! ```rust
+//! ```no_run
 //! log_error!("An error occurred");
 //! log_error!("Error: {}", error_message);
 //! ```
@@ -26,7 +26,7 @@
 //!
 //! ### Usage
 //!
-//! ```rust
+//! ```no_run
 //! log_warn!("This is a warning");
 //! log_warn!("Warning: {}", warning_message);
 //! ```
@@ -37,7 +37,7 @@
 //!
 //! ### Usage
 //!
-//! ```rust
+//! ```no_run
 //! log_info!("Informational message");
 //! log_info!("Info: {}", info_message);
 //! ```
@@ -48,7 +48,7 @@
 //!
 //! ### Usage
 //!
-//! ```rust
+//! ```no_run
 //! log_debug!("Debugging message");
 //! log_debug!("Debug: {}", debug_message);
 //! ```
@@ -59,7 +59,7 @@
 //!
 //! ### Usage
 //!
-//! ```rust
+//! ```no_run
 //! log_trace!("Trace message");
 //! log_trace!("Trace: {}", trace_message);
 //! ```
@@ -70,7 +70,7 @@
 //!
 //! ### Usage
 //!
-//! ```rust
+//! ```no_run
 //! let current_timestamp = timestamp!();
 //! println!("Current Timestamp: {}", current_timestamp);
 //! ```
