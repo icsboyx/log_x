@@ -44,8 +44,10 @@
 //! - **Log Levels**: Supports multiple log levels (e.g., Error, Warn, Info, Debug, Trace).
 //! - **Module Logging**: Allows setting log levels and paranoia mode for specific modules.
 //! - **Colorized Output**: Supports colorizing log messages for better readability.
-//! - **Paranoia Mode**: Provides detailed log output, including file, module, and line number information.
+//! - **Paranoia Mode**: Provides detailed log output, including file and line number information.
 //! - **Flexible Configuration**: Allows customizing log levels and paranoia settings at runtime.
+//! - **Simple API**: Provides macros for logging messages at different log levels.
+//!
 //!
 //! ## Examples
 //!
@@ -105,19 +107,20 @@
 //!
 //! ```shell
 //! Setting the default log level to TRACE
-//!  [ 2024-10-05 10:44:56 - ERROR ] This is an error message
-//!  [ 2024-10-05 10:44:56 - WARN  ] This is a warning message
-//!  [ 2024-10-05 10:44:56 - INFO  ] This is an info message
-//!  [ 2024-10-05 10:44:56 - DEBUG ] This is a debug message
-//!  [ 2024-10-05 10:44:56 - TRACE ] This is a trace message
-//!  Setting the default log level to INFO
-//!  [ 2024-10-05 10:44:56 - ERROR ] This is an error message
-//!  [ 2024-10-05 10:44:56 - WARN  ] This is a warning message
-//!  [ 2024-10-05 10:44:56 - INFO  ] This is an info message
-//!  Setting paranoia to true, this will inherit the log level from the parent, that is INFO
-//!  [ 2024-10-05 10:44:56 - ERROR ] This is an error message | Target: simple | File: examples/simple.rs | Line: 44 |
-//!  [ 2024-10-05 10:44:56 - WARN  ] This is a warning message | Target: simple | File: examples/simple.rs | Line: 45 |
-//!  [ 2024-10-05 10:44:56 - INFO  ] This is an info message | Target: simple | File: examples/simple.rs | Line: 46 |
+//! [ 2024-10-08 02:24:37 - ERROR ][simple] This is an error message
+//! [ 2024-10-08 02:24:37 - WARN  ][simple] This is a warning message
+//! [ 2024-10-08 02:24:37 - INFO  ][simple] This is an info message
+//! [ 2024-10-08 02:24:37 - DEBUG ][simple] This is a debug message
+//! [ 2024-10-08 02:24:37 - TRACE ][simple] This is a trace message
+//! Setting the default log level to INFO
+//! [ 2024-10-08 02:24:37 - ERROR ][simple] This is an error message
+//! [ 2024-10-08 02:24:37 - WARN  ][simple] This is a warning message
+//! [ 2024-10-08 02:24:37 - INFO  ][simple] This is an info message
+//! Setting paranoia to true, this will inherit the log level from the parent, that is INFO
+//! [ 2024-10-08 02:24:37 - ERROR ][simple] This is an error message | File: examples/simple.rs | Line: 40 |
+//! [ 2024-10-08 02:24:37 - WARN  ][simple] This is a warning message | File: examples/simple.rs | Line: 41 |
+//! [ 2024-10-08 02:24:37 - INFO  ][simple] This is an info message | File: examples/simple.rs | Line: 42 |
+//!
 //! ```
 
 //!
@@ -262,41 +265,40 @@
 //! --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //! Logging from main, with log level of DEBUG.
 //!
-//! [ 2024-10-05 10:45:00 - ERROR ] This is an error message
-//! [ 2024-10-05 10:45:00 - WARN  ] This is a warning message
-//! [ 2024-10-05 10:45:00 - INFO  ] This is an info message
-//! [ 2024-10-05 10:45:00 - DEBUG ] This is a debug message
+//! [ 2024-10-08 02:26:18 - ERROR ][multi_log_level] This is an error message
+//! [ 2024-10-08 02:26:18 - WARN  ][multi_log_level] This is a warning message
+//! [ 2024-10-08 02:26:18 - INFO  ][multi_log_level] This is an info message
+//! [ 2024-10-08 02:26:18 - DEBUG ][multi_log_level] This is a debug message
 //!
 //! --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //! Logging from mod_one with log level of TRACE.
 //!
-//! [ 2024-10-05 10:45:00 - ERROR ] This is an error message from mod_one
-//! [ 2024-10-05 10:45:00 - WARN  ] This is a warning message from mod_one
-//! [ 2024-10-05 10:45:00 - INFO  ] This is an info message from mod_one
-//! [ 2024-10-05 10:45:00 - DEBUG ] This is a debug message from mod_one
-//! [ 2024-10-05 10:45:00 - TRACE ] This is a trace message from mod_one
+//! [ 2024-10-08 02:26:18 - ERROR ][multi_log_level::mod_one] This is an error message from mod_one
+//! [ 2024-10-08 02:26:18 - WARN  ][multi_log_level::mod_one] This is a warning message from mod_one
+//! [ 2024-10-08 02:26:18 - INFO  ][multi_log_level::mod_one] This is an info message from mod_one
+//! [ 2024-10-08 02:26:18 - DEBUG ][multi_log_level::mod_one] This is a debug message from mod_one
+//! [ 2024-10-08 02:26:18 - TRACE ][multi_log_level::mod_one] This is a trace message from mod_one
 //!
 //! --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //! Logging from mod_two with log level of INFO.
 //!
-//! [ 2024-10-05 10:45:00 - ERROR ] This is an error message from mod_two
-//! [ 2024-10-05 10:45:00 - WARN  ] This is a warning message from mod_two
-//! [ 2024-10-05 10:45:00 - INFO  ] This is an info message from mod_two
+//! [ 2024-10-08 02:26:18 - ERROR ][multi_log_level::mod_two] This is an error message from mod_two
+//! [ 2024-10-08 02:26:18 - WARN  ][multi_log_level::mod_two] This is a warning message from mod_two
+//! [ 2024-10-08 02:26:18 - INFO  ][multi_log_level::mod_two] This is an info message from mod_two
 //!
 //! --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //! Logging from mod_three with default log level form main with log level of DEBUG.
 //!
-//! [ 2024-10-05 10:45:00 - ERROR ] This is an error message from mod_three
-//! [ 2024-10-05 10:45:00 - WARN  ] This is a warning message from mod_three
-//! [ 2024-10-05 10:45:00 - INFO  ] This is an info message from mod_three
-//! [ 2024-10-05 10:45:00 - DEBUG ] This is a debug message from mod_three
+//! [ 2024-10-08 02:26:18 - ERROR ][multi_log_level::mod_three] This is an error message from mod_three
+//! [ 2024-10-08 02:26:18 - WARN  ][multi_log_level::mod_three] This is a warning message from mod_three
+//! [ 2024-10-08 02:26:18 - INFO  ][multi_log_level::mod_three] This is an info message from mod_three
+//! [ 2024-10-08 02:26:18 - DEBUG ][multi_log_level::mod_three] This is a debug message from mod_three
 //!
 //! --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //! Logging from mod_four with WARN level and paranoia true :P.
 //!
-//! [ 2024-10-05 10:45:00 - ERROR ] This is an error message from mod_three | Target: multi_log_level::mod_four | File: examples/multi_log_level.rs | Line: 123 |
-//! [ 2024-10-05 10:45:00 - WARN  ] This is a warning message from mod_three | Target: multi_log_level::mod_four | File: examples/multi_log_level.rs | Line: 124 |
-//! ```
+//! [ 2024-10-08 02:26:18 - ERROR ][multi_log_level::mod_four] This is an error message from mod_three | File: examples/multi_log_level.rs | Line: 113 |
+//! [ 2024-10-08 02:26:18 - WARN  ][multi_log_level::mod_four] This is a warning message from mod_three | File: examples/multi_log_level.rs | Line: 114 |//! ```
 //!
 //!
 //! ## Modules
@@ -443,19 +445,25 @@ impl Logger {
             if Logger::enabled(metadata) {
                 let timestamp = format!("{} - {}", metadata.timestamp(), metadata.level());
                 let paranoia = format!(
-                    " | Target: {} | File: {} | Line: {} | ",
-                    metadata.module(),
+                    " | File: {} | Line: {} | ",
+
                     metadata.file(),
                     metadata.line()
                 );
-                println!("[ {:<36} ] {}{}", timestamp, metadata.message(), if
-                    DefaultLogLevel::paranoia() ||
-                    ModLogger::get_mod_paranoia(metadata.module.as_str())
-                {
-                    paranoia.gray()
-                } else {
-                    "".to_string()
-                });
+                println!(
+                    "[ {:<36} ][{}] {}{}",
+                    timestamp,
+                    metadata.module().gray(),
+                    metadata.message(),
+                    if
+                        DefaultLogLevel::paranoia() ||
+                        ModLogger::get_mod_paranoia(metadata.module.as_str())
+                    {
+                        paranoia.gray()
+                    } else {
+                        "".to_string()
+                    }
+                );
             }
         }
     }
