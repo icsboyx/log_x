@@ -8,7 +8,9 @@ This Rust library provides advanced logging functionality with customizable log 
 - **Log levels can be changed**: You can change the log level at runtime.
 - **Terminal Colorization**: Enhance log readability by colorizing terminal output.
 - **Customizable Log Scope**: Define and use different log scopes: Global or Module-specific (Multiple modules can have their own log settings, or inherit form default).
-- **Paranoia Mode**: Log Messages will print out also the: file name, line and module where the log message was called.
+- **Paranoia Mode**: Log Messages will print out also the: file name and line where the log message was called.
+- **Flexible Configuration**: Allows customizing log levels and paranoia settings at runtime.
+- **Simple API**: Provides macros for logging messages at different log levels.
 
 To use the `log_x` library, you need to create log metadata and use the `Logger` to log messages. The library supports colorized output and paranoia mode for detailed logging.
 
