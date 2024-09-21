@@ -451,7 +451,7 @@ impl Logger {
                     metadata.line()
                 );
                 println!(
-                    "[ {:<36} ][{}] {}{}",
+                    "[{:^36}][{}] {}{}",
                     timestamp,
                     metadata.module().gray(),
                     metadata.message(),
