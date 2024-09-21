@@ -104,22 +104,22 @@
 //! ```
 //!
 //! ### Output
-//!
+//!]
 //! ```shell
 //! Setting the default log level to TRACE
-//! [ 2024-10-08 02:24:37 - ERROR ][simple] This is an error message
-//! [ 2024-10-08 02:24:37 - WARN  ][simple] This is a warning message
-//! [ 2024-10-08 02:24:37 - INFO  ][simple] This is an info message
-//! [ 2024-10-08 02:24:37 - DEBUG ][simple] This is a debug message
-//! [ 2024-10-08 02:24:37 - TRACE ][simple] This is a trace message
+//! [2024-10-08 02:24:37 - ERROR][simple] This is an error message
+//! [2024-10-08 02:24:37 - WARN ][simple] This is a warning message
+//! [2024-10-08 02:24:37 - INFO ][simple] This is an info message
+//! [2024-10-08 02:24:37 - DEBUG][simple] This is a debug message
+//! [2024-10-08 02:24:37 - TRACE][simple] This is a trace message
 //! Setting the default log level to INFO
-//! [ 2024-10-08 02:24:37 - ERROR ][simple] This is an error message
-//! [ 2024-10-08 02:24:37 - WARN  ][simple] This is a warning message
-//! [ 2024-10-08 02:24:37 - INFO  ][simple] This is an info message
+//! [2024-10-08 02:24:37 - ERROR][simple] This is an error message
+//! [2024-10-08 02:24:37 - WARN ][simple] This is a warning message
+//! [2024-10-08 02:24:37 - INFO ][simple] This is an info message
 //! Setting paranoia to true, this will inherit the log level from the parent, that is INFO
-//! [ 2024-10-08 02:24:37 - ERROR ][simple] This is an error message | File: examples/simple.rs | Line: 40 |
-//! [ 2024-10-08 02:24:37 - WARN  ][simple] This is a warning message | File: examples/simple.rs | Line: 41 |
-//! [ 2024-10-08 02:24:37 - INFO  ][simple] This is an info message | File: examples/simple.rs | Line: 42 |
+//! [2024-10-08 02:24:37 - ERROR][simple] This is an error message | File: examples/simple.rs | Line: 40 |
+//! [2024-10-08 02:24:37 - WARN ][simple] This is a warning message | File: examples/simple.rs | Line: 41 |
+//! [2024-10-08 02:24:37 - INFO ][simple] This is an info message | File: examples/simple.rs | Line: 42 |
 //!
 //! ```
 
@@ -265,40 +265,40 @@
 //! --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //! Logging from main, with log level of DEBUG.
 //!
-//! [ 2024-10-08 02:26:18 - ERROR ][multi_log_level] This is an error message
-//! [ 2024-10-08 02:26:18 - WARN  ][multi_log_level] This is a warning message
-//! [ 2024-10-08 02:26:18 - INFO  ][multi_log_level] This is an info message
-//! [ 2024-10-08 02:26:18 - DEBUG ][multi_log_level] This is a debug message
+//! [2024-10-08 02:26:18 - ERROR][multi_log_level] This is an error message
+//! [2024-10-08 02:26:18 - WARN ][multi_log_level] This is a warning message
+//! [2024-10-08 02:26:18 - INFO ][multi_log_level] This is an info message
+//! [2024-10-08 02:26:18 - DEBUG][multi_log_level] This is a debug message
 //!
 //! --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //! Logging from mod_one with log level of TRACE.
 //!
-//! [ 2024-10-08 02:26:18 - ERROR ][multi_log_level::mod_one] This is an error message from mod_one
-//! [ 2024-10-08 02:26:18 - WARN  ][multi_log_level::mod_one] This is a warning message from mod_one
-//! [ 2024-10-08 02:26:18 - INFO  ][multi_log_level::mod_one] This is an info message from mod_one
-//! [ 2024-10-08 02:26:18 - DEBUG ][multi_log_level::mod_one] This is a debug message from mod_one
-//! [ 2024-10-08 02:26:18 - TRACE ][multi_log_level::mod_one] This is a trace message from mod_one
+//! [2024-10-08 02:26:18 - ERROR][multi_log_level::mod_one] This is an error message from mod_one
+//! [2024-10-08 02:26:18 - WARN ][multi_log_level::mod_one] This is a warning message from mod_one
+//! [2024-10-08 02:26:18 - INFO ][multi_log_level::mod_one] This is an info message from mod_one
+//! [2024-10-08 02:26:18 - DEBUG][multi_log_level::mod_one] This is a debug message from mod_one
+//! [2024-10-08 02:26:18 - TRACE][multi_log_level::mod_one] This is a trace message from mod_one
 //!
 //! --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //! Logging from mod_two with log level of INFO.
 //!
-//! [ 2024-10-08 02:26:18 - ERROR ][multi_log_level::mod_two] This is an error message from mod_two
-//! [ 2024-10-08 02:26:18 - WARN  ][multi_log_level::mod_two] This is a warning message from mod_two
-//! [ 2024-10-08 02:26:18 - INFO  ][multi_log_level::mod_two] This is an info message from mod_two
+//! [2024-10-08 02:26:18 - ERROR][multi_log_level::mod_two] This is an error message from mod_two
+//! [2024-10-08 02:26:18 - WARN ][multi_log_level::mod_two] This is a warning message from mod_two
+//! [2024-10-08 02:26:18 - INFO ][multi_log_level::mod_two] This is an info message from mod_two
 //!
 //! --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //! Logging from mod_three with default log level form main with log level of DEBUG.
 //!
-//! [ 2024-10-08 02:26:18 - ERROR ][multi_log_level::mod_three] This is an error message from mod_three
-//! [ 2024-10-08 02:26:18 - WARN  ][multi_log_level::mod_three] This is a warning message from mod_three
-//! [ 2024-10-08 02:26:18 - INFO  ][multi_log_level::mod_three] This is an info message from mod_three
-//! [ 2024-10-08 02:26:18 - DEBUG ][multi_log_level::mod_three] This is a debug message from mod_three
+//! [2024-10-08 02:26:18 - ERROR][multi_log_level::mod_three] This is an error message from mod_three
+//! [2024-10-08 02:26:18 - WARN ][multi_log_level::mod_three] This is a warning message from mod_three
+//! [2024-10-08 02:26:18 - INFO ][multi_log_level::mod_three] This is an info message from mod_three
+//! [2024-10-08 02:26:18 - DEBUG][multi_log_level::mod_three] This is a debug message from mod_three
 //!
 //! --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //! Logging from mod_four with WARN level and paranoia true :P.
 //!
-//! [ 2024-10-08 02:26:18 - ERROR ][multi_log_level::mod_four] This is an error message from mod_three | File: examples/multi_log_level.rs | Line: 113 |
-//! [ 2024-10-08 02:26:18 - WARN  ][multi_log_level::mod_four] This is a warning message from mod_three | File: examples/multi_log_level.rs | Line: 114 |//! ```
+//! [2024-10-08 02:26:18 - ERROR][multi_log_level::mod_four] This is an error message from mod_three | File: examples/multi_log_level.rs | Line: 113 |
+//! [2024-10-08 02:26:18 - WARN ][multi_log_level::mod_four] This is a warning message from mod_three | File: examples/multi_log_level.rs | Line: 114 |//! ```
 //!
 //!
 //! ## Modules
