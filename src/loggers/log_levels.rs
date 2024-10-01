@@ -69,7 +69,7 @@ impl Display for LogLevel {
 impl LogLevel {
     /// Creates a `LogLevel` value from a string representation.
     pub fn from_str(level: &str) -> LogLevel {
-        match level {
+        match level.to_uppercase().as_str() {
             "TRACE" => LogLevel::Trace,
             "DEBUG" => LogLevel::Debug,
             "INFO" => LogLevel::Info,
