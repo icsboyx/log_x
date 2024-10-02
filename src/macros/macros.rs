@@ -21,6 +21,7 @@
 //! use log_x::Logger;
 //! use log_x::LogMetadata;
 //!
+//! log_error!();
 //! log_error!("An error occurred");
 //! log_error!("Error: {}", timestamp!());
 //! ```
@@ -37,6 +38,7 @@
 //! use log_x::Logger;
 //! use log_x::LogMetadata;
 //!
+//! log_warn!();
 //! log_warn!("This is a warning");
 //! log_warn!("Warning: {}", timestamp!());
 //! ```
@@ -52,6 +54,7 @@
 //! use log_x::loggers::log_levels::LogLevel;
 //! use log_x::Logger;
 //!
+//! log_info!();
 //! log_info!("Informational message");
 //! log_info!("Info: {}", timestamp!());
 //! ```
@@ -67,6 +70,7 @@
 //! use log_x::loggers::log_levels::LogLevel;
 //! use log_x::Logger;
 //!
+//! log_debug!();
 //! log_debug!("Debugging message");
 //! log_debug!("Debug: {}", timestamp!());
 //! ```
@@ -82,6 +86,7 @@
 //! use log_x::loggers::log_levels::LogLevel;
 //! use log_x::Logger;
 //!
+//! log_trace!();
 //! log_trace!("Trace message");
 //! log_trace!("Trace: {}", timestamp!());
 //! ```
@@ -103,6 +108,9 @@
 //!
 //! This macro will panic if the system time is before the Unix epoch (1970-01-01 00:00:00 UTC),
 //! which would cause the duration calculation to fail.
+//!
+//!
+//!
 #[macro_export]
 macro_rules! log_error {
     // Print empty message for error log

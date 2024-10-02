@@ -27,22 +27,16 @@ use std::fmt::{ self, Display, Formatter };
 use crate::terminal::colors::Color;
 
 // Define an enum to represent log levels
-#[derive(Clone, Debug, PartialEq, PartialOrd)]
+#[derive(Clone, Debug, PartialEq, PartialOrd, Copy, Default)]
 /// Standard log levels for logging messages.
 pub enum LogLevel {
+    #[default]
     Off,
     Error,
     Warn,
     Info,
     Debug,
     Trace,
-}
-
-impl Default for LogLevel {
-    /// Returns the default log level, which is `LogLevel::Off`.
-    fn default() -> Self {
-        LogLevel::Off
-    }
 }
 
 // Implement the Display trait for LogLevel
@@ -66,9 +60,9 @@ impl Display for LogLevel {
 /// Creates a `LogLevel` value from a string representation.
 /// If the string does not match any known log level, `LogLevel::Off` is returned.
 /// This function is used to parse log levels from configuration files or command-line arguments.
-impl LogLevel {
-    /// Creates a `LogLevel` value from a string representation.
-    pub fn from_str(level: &str) -> LogLevel {
+
+impl From<&str> for LogLevel {
+    fn from(level: &str) -> Self {
         match level.to_uppercase().as_str() {
             "TRACE" => LogLevel::Trace,
             "DEBUG" => LogLevel::Debug,

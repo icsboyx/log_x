@@ -77,10 +77,7 @@ impl DefaultLogLevel {
                 default_log_level.default_log_level = log_level;
             }
             Err(e) => {
-                eprintln!(
-                    "Failed to set the default log level variable in DEFAULT_LOG_LEVEL: {:?}",
-                    e
-                );
+                eprintln!("Failed to set the default log level variable in DEFAULT_LOG_LEVEL: {e}");
             }
         }
     }
@@ -91,18 +88,17 @@ impl DefaultLogLevel {
                 default_log_level.paranoia = paranoia;
             }
             Err(e) => {
-                eprintln!("Failed to set the paranoia variable in DEFAULT_LOG_LEVEL: {:?}", e);
+                eprintln!("Failed to set the paranoia variable in DEFAULT_LOG_LEVEL: {e}");
             }
         }
     }
     /// Gets the current global log level.
     pub fn log_level() -> LogLevel {
         match DEFAULT_LOG_LEVEL.read() {
-            Ok(default_log_level) => default_log_level.default_log_level.clone(),
+            Ok(default_log_level) => default_log_level.default_log_level,
             Err(e) => {
                 eprintln!(
-                    "Failed to read the default log level variable in DEFAULT_LOG_LEVEL: {:?}",
-                    e
+                    "Failed to read the default log level variable in DEFAULT_LOG_LEVEL: {e}"
                 );
                 LogLevel::Off
             }
@@ -113,7 +109,7 @@ impl DefaultLogLevel {
         match DEFAULT_LOG_LEVEL.read() {
             Ok(default_log_level) => default_log_level.paranoia,
             Err(e) => {
-                eprintln!("Failed to read the paranoia variable in DEFAULT_LOG_LEVEL: {:?}", e);
+                eprintln!("Failed to read the paranoia variable in DEFAULT_LOG_LEVEL: {e}");
                 false
             }
         }

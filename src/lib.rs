@@ -5,36 +5,39 @@
 //!
 //! ## Usage
 //!
-//! To use the `log_x` library, you need to create log metadata and use the `Logger` to log messages. The library supports colorized output and paranoia mode for detailed logging.
+//! To use the `log_x` library, you need to set the default log level and use the provided macros to log messages at different log levels.
+//! Using embedded macros will automatically create log metadata for you.
 //!
-//! ```
-//! use log_x::loggers::log_levels::LogLevel;
-//! use log_x::Logger;
-//! use log_x::LogMetadata;
+//! You can also create metadata manually and log messages using the `Logger` API.
 //!
-//! let metadata = LogMetadata::new(
-//!     "2023-10-01T12:00:00Z".to_string(),
-//!     LogLevel::Info,
-//!     "main.rs",
-//!     "main".to_string(),
-//!     42,
-//!     "This is a log message".to_string(),
-//! );
+//! ```rust
+//! #[macro_use]
+//! extern crate log_x;
+//! use log_x::{ loggers::{ global_logger::DefaultLoggerTrait, log_levels::LogLevel }, Logger, LogMetadata };
 //!
-//! Logger::log(&metadata);
-//! ```
-//! Or you can use the provided macros to log messages at different log levels.
-//! ```
-//!  use log_x::{log_error, log_warn, log_info, log_debug, log_trace, timestamp};
-//!  use log_x::loggers::log_levels::LogLevel;
-//!  use log_x::Logger;
-//!  use log_x::LogMetadata;
+//! fn main() {
 //!
-//!  log_error!("This is an error message");
-//!  log_warn!("This is a warning message");
-//!  log_info!("This is an info message");
-//!  log_debug!("This is a debug message");
-//!  log_trace!("This is a trace message");
+//!   Logger::set_log_level(LogLevel::Trace);
+//!
+//!    log_error!("This is an error message");
+//!    log_warn!("This is a warning message");
+//!    log_info!("This is an info message");
+//!    log_debug!("This is a debug message");
+//!    log_trace!("This is a trace message");
+//!
+//!
+//!   let metadata = LogMetadata::new(
+//!       "2023-10-01T12:00:00Z",
+//!       LogLevel::Info,
+//!       "main.rs",
+//!       "main",
+//!       42,
+//!       "This is a log message",
+//!   );
+//!
+//!   Logger::log(&metadata);
+//!
+//! }
 //! ```
 //!
 //!
@@ -318,6 +321,7 @@
 //!
 //!
 // Import necessary items
+
 pub mod loggers;
 pub mod terminal;
 
@@ -382,28 +386,29 @@ pub struct LogMetadata {
 /// - `file`: Returns the file where the log entry was generated.
 /// - `line`: Returns the line number in the file where the log entry was generated.
 /// - `timestamp`: Returns the timestamp when the log entry was created.
+
 impl LogMetadata {
     /// Creates a new `LogMetadata` instance with the given values.
     pub fn new(
-        timestamp: String,
+        timestamp: impl Into<String>,
         level: LogLevel,
-        file: &str,
-        module: String,
+        file: impl Into<String>,
+        module: impl Into<String>,
         line: u32,
-        message: String
-    ) -> LogMetadata {
-        LogMetadata {
-            timestamp,
+        message: impl Into<String>
+    ) -> Self {
+        Self {
+            timestamp: timestamp.into(),
             level,
-            file: file.to_string(),
-            module,
+            file: file.into(),
+            module: module.into(),
             line,
-            message,
+            message: message.into(),
         }
     }
     /// Returns the severity level of the log entry.
     pub fn level(&self) -> LogLevel {
-        self.level.clone()
+        self.level
     }
     /// Returns the module where the log entry was generated.
     pub fn module(&self) -> &str {

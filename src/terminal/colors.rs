@@ -67,39 +67,43 @@ impl Color {
 /// Extends the `Display` and `Debug` traits with methods to colorize text.
 /// Each method returns a `String` with the text wrapped in the appropriate ANSI escape codes for the specified color and resets the color at the end.
 pub trait Colorize: Display + Debug {
+    fn colorize(&self, color: Color) -> String {
+        format!("{}{}{}", color.to_ansi_code(), self, Color::Reset.to_ansi_code())
+    }
+
     fn red(&self) -> String {
-        format!("{}{}{}", Color::Red.to_ansi_code(), self, Color::Reset.to_ansi_code())
+        self.colorize(Color::Red)
     }
 
     fn green(&self) -> String {
-        format!("{}{}{}", Color::Green.to_ansi_code(), self, Color::Reset.to_ansi_code())
+        self.colorize(Color::Green)
     }
 
     fn yellow(&self) -> String {
-        format!("{}{}{}", Color::Yellow.to_ansi_code(), self, Color::Reset.to_ansi_code())
+        self.colorize(Color::Yellow)
     }
 
     fn blue(&self) -> String {
-        format!("{}{}{}", Color::Blue.to_ansi_code(), self, Color::Reset.to_ansi_code())
+        self.colorize(Color::Blue)
     }
 
     fn magenta(&self) -> String {
-        format!("{}{}{}", Color::Magenta.to_ansi_code(), self, Color::Reset.to_ansi_code())
+        self.colorize(Color::Magenta)
     }
 
     fn cyan(&self) -> String {
-        format!("{}{}{}", Color::Cyan.to_ansi_code(), self, Color::Reset.to_ansi_code())
+        self.colorize(Color::Cyan)
     }
 
     fn gray(&self) -> String {
-        format!("{}{}{}", Color::Gray.to_ansi_code(), self, Color::Reset.to_ansi_code())
+        self.colorize(Color::Gray)
     }
 
     fn white(&self) -> String {
-        format!("{}{}{}", Color::White.to_ansi_code(), self, Color::Reset.to_ansi_code())
+        self.colorize(Color::White)
     }
 
     fn black(&self) -> String {
-        format!("{}{}{}", Color::Black.to_ansi_code(), self, Color::Reset.to_ansi_code())
+        self.colorize(Color::Black)
     }
 }

@@ -12,42 +12,40 @@ This Rust library provides advanced logging functionality with customizable log 
 - **Flexible Configuration**: Allows customizing log levels and paranoia settings at runtime.
 - **Simple API**: Provides macros for logging messages at different log levels.
 
-To use the `log_x` library, you need to create log metadata and use the `Logger` to log messages. The library supports colorized output and paranoia mode for detailed logging.
+To use the `log_x` library, you need to set the default log level and use the provided macros to log messages at different log levels.
+Using embedded macros will automatically create log metadata for you.
+
+You can also create metadata manually and log messages using the `Logger` API.
 
 ```rust
-use log_x::loggers::log_levels::LogLevel;
-use log_x::Logger;
-use log_x::LogMetadata;
+#[macro_use]
+extern crate log_x;
+use log_x::{ loggers::{ global_logger::DefaultLoggerTrait, log_levels::LogLevel }, Logger, LogMetadata };
 
-let metadata = LogMetadata::new(
-    "2023-10-01T12:00:00Z".to_string(),
-    LogLevel::Info,
-    "main.rs",
-    "main".to_string(),
-    42,
-    "This is a log message".to_string(),
-);
+fn main() {
 
-Logger::log(&metadata);
+  Logger::set_log_level(LogLevel::Trace);
+
+   log_error!("This is an error message");
+   log_warn!("This is a warning message");
+   log_info!("This is an info message");
+   log_debug!("This is a debug message");
+   log_trace!("This is a trace message");
+
+
+  let metadata = LogMetadata::new(
+      "2023-10-01T12:00:00Z",
+      LogLevel::Info,
+      "main.rs",
+      "main",
+      42,
+      "This is a log message",
+  );
+
+  Logger::log(&metadata);
+
+}
 ```
-
-Or you can use the provided macros to log messages at different log levels.
-
-```rust
- log_error!("This is an error message");
- log_warn!("This is a warning message");
- log_info!("This is an info message");
- log_debug!("This is a debug message");
- log_trace!("This is a trace message");
-```
-
-## Features
-
-- **Log Levels**: Supports multiple log levels (e.g., Error, Warn, Info, Debug, Trace).
-- **Module Logging**: Allows setting log levels and paranoia mode for specific modules.
-- **Colorized Output**: Supports colorizing log messages for better readability.
-- **Paranoia Mode**: Provides detailed log output, including file, module, and line number information.
-- **Flexible Configuration**: Allows customizing log levels and paranoia settings at runtime.
 
 ## Examples
 

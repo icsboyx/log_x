@@ -49,7 +49,7 @@ pub trait ModuleLoggerTrait {
     fn get_mod_paranoia(module: &str) -> bool;
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, Default)]
 pub struct ModLogger {
     /// The name of the module.
     pub module: String,
@@ -59,17 +59,17 @@ pub struct ModLogger {
     pub paranoia: bool,
 }
 
-impl Default for ModLogger {
-    /// Returns the default log level and paranoia settings.
-    /// The module name is set to an empty string, log level to `LogLevel::Off`, and paranoia to `false`.
-    fn default() -> Self {
-        ModLogger {
-            module: "".to_string(),
-            log_level: LogLevel::Off,
-            paranoia: false,
-        }
-    }
-}
+// impl Default for ModLogger {
+//     /// Returns the default log level and paranoia settings.
+//     /// The module name is set to an empty string, log level to `LogLevel::Off`, and paranoia to `false`.
+//     fn default() -> Self {
+//         ModLogger {
+//             module: "".to_string(),
+//             log_level: LogLevel::Off,
+//             paranoia: false,
+//         }
+//     }
+// }
 
 impl ModLogger {
     /// Sets the log level and paranoia flag for a specific module.
