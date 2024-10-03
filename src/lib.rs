@@ -447,29 +447,27 @@ impl Logger {
     /// Logs the given log metadata.
     pub fn log(metadata: &LogMetadata) {
         if Logger::enabled(metadata) {
-            if Logger::enabled(metadata) {
-                let timestamp = format!("{} - {}", metadata.timestamp(), metadata.level());
-                let paranoia = format!(
-                    " | File: {} | Line: {} | ",
+            let timestamp = format!("{} - {}", metadata.timestamp(), metadata.level());
+            let paranoia = format!(
+                " | File: {} | Line: {} | ",
 
-                    metadata.file(),
-                    metadata.line()
-                );
-                println!(
-                    "[{:^36}][{}] {}{}",
-                    timestamp,
-                    metadata.module().gray(),
-                    metadata.message(),
-                    if
-                        DefaultLogLevel::paranoia() ||
-                        ModLogger::get_mod_paranoia(metadata.module.as_str())
-                    {
-                        paranoia.gray()
-                    } else {
-                        "".to_string()
-                    }
-                );
-            }
+                metadata.file(),
+                metadata.line()
+            );
+            println!(
+                "[{:^36}][{}] {}{}",
+                timestamp,
+                metadata.module().gray(),
+                metadata.message(),
+                if
+                    DefaultLogLevel::paranoia() ||
+                    ModLogger::get_mod_paranoia(metadata.module.as_str())
+                {
+                    paranoia.gray()
+                } else {
+                    "".to_string()
+                }
+            );
         }
     }
     /// Flushes the log output.
@@ -505,7 +503,7 @@ impl DefaultLoggerTrait for Logger {
 impl ModuleLoggerTrait for Logger {
     /// Sets the log level for the given module.
     fn set_mod_logging(module: &str, log_level: LogLevel, paranoia: bool) {
-        ModLogger::set_log_level(module, log_level, paranoia);
+        ModLogger::set_mod_log_level(module, log_level, paranoia);
     }
     /// Returns the log level for the given module. As an Option. If the module is not found, it will return None.
     fn get_mod_log_level(module: &str) -> Option<LogLevel> {

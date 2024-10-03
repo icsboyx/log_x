@@ -63,7 +63,7 @@ pub struct ModLogger {
 
 impl ModLogger {
     /// Sets the log level and paranoia flag for a specific module.
-    pub fn set_log_level(module: &str, log_level: LogLevel, paranoia: bool) {
+    pub fn set_mod_log_level(module: &str, log_level: LogLevel, paranoia: bool) {
         match MODULES_LOG_LEVEL.write() {
             Ok(mut modules_log_level) => {
                 modules_log_level.insert(module.to_string(), ModLogger {
