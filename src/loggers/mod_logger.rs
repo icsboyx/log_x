@@ -59,17 +59,7 @@ pub struct ModLogger {
     pub paranoia: bool,
 }
 
-// impl Default for ModLogger {
-//     /// Returns the default log level and paranoia settings.
-//     /// The module name is set to an empty string, log level to `LogLevel::Off`, and paranoia to `false`.
-//     fn default() -> Self {
-//         ModLogger {
-//             module: "".to_string(),
-//             log_level: LogLevel::Off,
-//             paranoia: false,
-//         }
-//     }
-// }
+
 
 impl ModLogger {
     /// Sets the log level and paranoia flag for a specific module.

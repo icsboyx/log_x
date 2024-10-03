@@ -74,3 +74,28 @@ impl From<&str> for LogLevel {
         }
     }
 }
+
+impl From<String> for LogLevel {
+    fn from(level: String) -> Self {
+        level.as_str().into() // Delegate to the &str implementation
+    }
+}
+
+impl Into<&'static str> for LogLevel {
+    fn into(self) -> &'static str {
+        match self {
+            LogLevel::Trace => "TRACE",
+            LogLevel::Debug => "DEBUG",
+            LogLevel::Info => "INFO",
+            LogLevel::Warn => "WARN",
+            LogLevel::Error => "ERROR",
+            LogLevel::Off => "OFF",
+        }
+    }
+}
+
+impl Into<String> for LogLevel {
+    fn into(self) -> String {
+        self.to_string()
+    }
+}
