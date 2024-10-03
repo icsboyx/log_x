@@ -1,16 +1,9 @@
-# log_x
+# log_x Library
 
-This Rust library provides advanced logging functionality with customizable log levels, terminal colorization.
+The `log_x` library provides a flexible and extensible logging framework for Rust applications.
+It supports different log levels, module-specific logging, and customizable log output formats.
 
-## Features
-
-- **Customizable Log Levels**: Define and use different log levels.
-- **Log levels can be changed**: You can change the log level at runtime.
-- **Terminal Colorization**: Enhance log readability by colorizing terminal output.
-- **Customizable Log Scope**: Define and use different log scopes: Global or Module-specific (Multiple modules can have their own log settings, or inherit form default).
-- **Paranoia Mode**: Log Messages will print out also the: file name and line where the log message was called.
-- **Flexible Configuration**: Allows customizing log levels and paranoia settings at runtime.
-- **Simple API**: Provides macros for logging messages at different log levels.
+## Usage
 
 To use the `log_x` library, you need to set the default log level and use the provided macros to log messages at different log levels.
 Using embedded macros will automatically create log metadata for you.
@@ -47,12 +40,28 @@ fn main() {
 }
 ```
 
+
+
+## Features
+
+- **Log Levels**: Supports multiple log levels (e.g., Error, Warn, Info, Debug, Trace).
+- **Module Logging**: Allows setting log levels and paranoia mode for specific modules.
+- **Colorized Output**: Supports colorizing log messages for better readability.
+- **Paranoia Mode**: Provides detailed log output, including file and line number information.
+- **Flexible Configuration**: Allows customizing log levels and paranoia settings at runtime.
+- **Simple API**: Provides macros for logging messages at different log levels.
+
+
 ## Examples
 
 - ### Simple Example
-  The following example demonstrates how to use the `log_x` library to log messages at different log levels.
+The following example demonstrates how to use the `log_x` library to log messages at different log levels.
 
 ```rust
+#[macro_use]
+extern crate log_x;
+use log_x::{ loggers::{ global_logger::DefaultLoggerTrait, log_levels::LogLevel }, Logger };
+
 fn main() {
     // Set the default log level to Trace
     // all the log messages will be printed
@@ -98,26 +107,27 @@ fn main() {
 ```
 
 ### Output
-
 ```shell
 Setting the default log level to TRACE
-[2024-10-08 02:39:09 - ERROR][simple] This is an error message
-[2024-10-08 02:39:09 - WARN ][simple] This is a warning message
-[2024-10-08 02:39:09 - INFO ][simple] This is an info message
-[2024-10-08 02:39:09 - DEBUG][simple] This is a debug message
-[2024-10-08 02:39:09 - TRACE][simple] This is a trace message
+[2024-10-08 02:24:37 - ERROR][simple] This is an error message
+[2024-10-08 02:24:37 - WARN ][simple] This is a warning message
+[2024-10-08 02:24:37 - INFO ][simple] This is an info message
+[2024-10-08 02:24:37 - DEBUG][simple] This is a debug message
+[2024-10-08 02:24:37 - TRACE][simple] This is a trace message
 Setting the default log level to INFO
-[2024-10-08 02:39:09 - ERROR][simple] This is an error message
-[2024-10-08 02:39:09 - WARN ][simple] This is a warning message
-[2024-10-08 02:39:09 - INFO ][simple] This is an info message
+[2024-10-08 02:24:37 - ERROR][simple] This is an error message
+[2024-10-08 02:24:37 - WARN ][simple] This is a warning message
+[2024-10-08 02:24:37 - INFO ][simple] This is an info message
 Setting paranoia to true, this will inherit the log level from the parent, that is INFO
-[2024-10-08 02:39:09 - ERROR][simple] This is an error message | File: examples/simple.rs | Line: 40 |
-[2024-10-08 02:39:09 - WARN ][simple] This is a warning message | File: examples/simple.rs | Line: 41 |
-[2024-10-08 02:39:09 - INFO ][simple] This is an info message | File: examples/simple.rs | Line: 42 |
+[2024-10-08 02:24:37 - ERROR][simple] This is an error message | File: examples/simple.rs | Line: 40 |
+[2024-10-08 02:24:37 - WARN ][simple] This is a warning message | File: examples/simple.rs | Line: 41 |
+[2024-10-08 02:24:37 - INFO ][simple] This is an info message | File: examples/simple.rs | Line: 42 |
+
 ```
 
+
 - ### Advanced Example per module logging
-  The following example demonstrates how to use the `log_x` library to log messages at different log levels for different modules.
+The following example demonstrates how to use the `log_x` library to log messages at different log levels for different modules.
 
 ```rust
 #[macro_use]
@@ -250,62 +260,63 @@ mod mod_four {
     }
 }
 ```
-
 # Output
-
 ```shell
 Setting the default log level to Debug
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Logging from main, with log level of DEBUG.
 
-[2024-10-08 02:40:07 - ERROR][multi_log_level] This is an error message
-[2024-10-08 02:40:07 - WARN ][multi_log_level] This is a warning message
-[2024-10-08 02:40:07 - INFO ][multi_log_level] This is an info message
-[2024-10-08 02:40:07 - DEBUG][multi_log_level] This is a debug message
+[2024-10-08 02:26:18 - ERROR][multi_log_level] This is an error message
+[2024-10-08 02:26:18 - WARN ][multi_log_level] This is a warning message
+[2024-10-08 02:26:18 - INFO ][multi_log_level] This is an info message
+[2024-10-08 02:26:18 - DEBUG][multi_log_level] This is a debug message
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Logging from mod_one with log level of TRACE.
 
-[2024-10-08 02:40:07 - ERROR][multi_log_level::mod_one] This is an error message from mod_one
-[2024-10-08 02:40:07 - WARN ][multi_log_level::mod_one] This is a warning message from mod_one
-[2024-10-08 02:40:07 - INFO ][multi_log_level::mod_one] This is an info message from mod_one
-[2024-10-08 02:40:07 - DEBUG][multi_log_level::mod_one] This is a debug message from mod_one
-[2024-10-08 02:40:07 - TRACE][multi_log_level::mod_one] This is a trace message from mod_one
+[2024-10-08 02:26:18 - ERROR][multi_log_level::mod_one] This is an error message from mod_one
+[2024-10-08 02:26:18 - WARN ][multi_log_level::mod_one] This is a warning message from mod_one
+[2024-10-08 02:26:18 - INFO ][multi_log_level::mod_one] This is an info message from mod_one
+[2024-10-08 02:26:18 - DEBUG][multi_log_level::mod_one] This is a debug message from mod_one
+[2024-10-08 02:26:18 - TRACE][multi_log_level::mod_one] This is a trace message from mod_one
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Logging from mod_two with log level of INFO.
 
-[2024-10-08 02:40:07 - ERROR][multi_log_level::mod_two] This is an error message from mod_two
-[2024-10-08 02:40:07 - WARN ][multi_log_level::mod_two] This is a warning message from mod_two
-[2024-10-08 02:40:07 - INFO ][multi_log_level::mod_two] This is an info message from mod_two
+[2024-10-08 02:26:18 - ERROR][multi_log_level::mod_two] This is an error message from mod_two
+[2024-10-08 02:26:18 - WARN ][multi_log_level::mod_two] This is a warning message from mod_two
+[2024-10-08 02:26:18 - INFO ][multi_log_level::mod_two] This is an info message from mod_two
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Logging from mod_three with default log level form main with log level of DEBUG.
 
-[2024-10-08 02:40:07 - ERROR][multi_log_level::mod_three] This is an error message from mod_three
-[2024-10-08 02:40:07 - WARN ][multi_log_level::mod_three] This is a warning message from mod_three
-[2024-10-08 02:40:07 - INFO ][multi_log_level::mod_three] This is an info message from mod_three
-[2024-10-08 02:40:07 - DEBUG][multi_log_level::mod_three] This is a debug message from mod_three
+[2024-10-08 02:26:18 - ERROR][multi_log_level::mod_three] This is an error message from mod_three
+[2024-10-08 02:26:18 - WARN ][multi_log_level::mod_three] This is a warning message from mod_three
+[2024-10-08 02:26:18 - INFO ][multi_log_level::mod_three] This is an info message from mod_three
+[2024-10-08 02:26:18 - DEBUG][multi_log_level::mod_three] This is a debug message from mod_three
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Logging from mod_four with WARN level and paranoia true :P.
 
-[2024-10-08 02:40:07 - ERROR][multi_log_level::mod_four] This is an error message from mod_three | File: examples/multi_log_level.rs | Line: 113 |
-[2024-10-08 02:40:07 - WARN ][multi_log_level::mod_four] This is a warning message from mod_three | File: examples/multi_log_level.rs | Line: 114 |
+[2024-10-08 02:26:18 - ERROR][multi_log_level::mod_four] This is an error message from mod_three | File: examples/multi_log_level.rs | Line: 113 |
+[2024-10-08 02:26:18 - WARN ][multi_log_level::mod_four] This is a warning message from mod_three | File: examples/multi_log_level.rs | Line: 114 |```
+
 ```
 
 ## Modules
 
-- **loggers**: Contains the core logging functionality, including global and module-specific loggers.
-- **terminal**: Provides utilities for terminal output, such as colorizing log messages.
-- **macros**: Contains macros to simplify logging operations.
+- [`loggers`]: Contains the core logging functionality, including global and module-specific loggers.
+- [`terminal`]: Provides utilities for terminal output, such as colorizing log messages.
+- [`macros`]: Contains macros to simplify logging operations.
 
 ## Macros
 
-- **log_error** Logs an error message.
-- **log_warn!** Logs a warning message.
-- **log_info!** Logs an informational message.
-- **log_debug!** Logs a debug message.
-- **log_trace!** Logs a trace message.
-- **timestamp!** Generates a formatted timestamp string representing the current time.
+- [`log_error!`]: Logs an error message.
+- [`log_warn!`]: Logs a warning message.
+- [`log_info!`]: Logs an informational message.
+- [`log_debug!`]: Logs a debug message.
+- [`log_trace!`]: Logs a trace message.
+- [`timestamp!`]: Generates a formatted timestamp string representing the current time.
+
+
