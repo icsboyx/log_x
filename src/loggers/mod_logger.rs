@@ -40,13 +40,21 @@ pub static MODULES_LOG_LEVEL: LazyLock<RwLock<HashMap<String, ModLogger>>> = Laz
 /// A trait for managing module-specific log levels and paranoia settings.
 pub trait ModuleLoggerTrait {
     /// Sets the log level and paranoia flag for a specific module.
-    fn set_mod_logging(module: &str, log_level: LogLevel, paranoia: bool);
+    fn set_mod_logging(module: &str, log_level: LogLevel, paranoia: bool){
+        ModLogger::set_mod_log_level(module, log_level, paranoia);
+    }
     /// Retrieves the name of the module.
-    fn get_mod_name(module: &str) -> String;
+    fn get_mod_name(module: &str) -> String{
+        ModLogger::get_mod_name(module)
+    }
     /// Retrieves the log level for a specific module. Returns `None` if the module is not found.
-    fn get_mod_log_level(module: &str) -> Option<LogLevel>;
+    fn get_mod_log_level(module: &str) -> Option<LogLevel>{
+        ModLogger::get_mod_log_level(module)
+    }
     /// Retrieves the paranoia flag for a specific module.
-    fn get_mod_paranoia(module: &str) -> bool;
+    fn get_mod_paranoia(module: &str) -> bool{
+        ModLogger::get_mod_paranoia(module)
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Default)]

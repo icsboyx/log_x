@@ -160,40 +160,8 @@ impl Logger {
 
 /// A trait for Default logging.
 impl DefaultLoggerTrait for Logger {
-    /// Sets the default log level.
-    fn set_log_level(log_level: LogLevel) {
-        DefaultLogLevel::set_log_level(log_level);
-    }
-    /// Sets the paranoia mode.
-    fn set_paranoia(paranoia: bool) {
-        DefaultLogLevel::set_paranoia(paranoia);
-    }
-    /// Returns the default log level.
-    fn get_log_level() -> LogLevel {
-        DefaultLogLevel::log_level()
-    }
-    /// Returns the paranoia mode.
-    fn get_paranoia() -> bool {
-        DefaultLogLevel::paranoia()
-    }
 }
 
 /// A trait for Module logging.
 impl ModuleLoggerTrait for Logger {
-    /// Sets the log level for the given module.
-    fn set_mod_logging(module: &str, log_level: LogLevel, paranoia: bool) {
-        ModLogger::set_mod_log_level(module, log_level, paranoia);
-    }
-    /// Returns the log level for the given module. As an Option. If the module is not found, it will return None.
-    fn get_mod_log_level(module: &str) -> Option<LogLevel> {
-        ModLogger::get_mod_log_level(module)
-    }
-    /// Returns the paranoia mode for the given module.
-    fn get_mod_paranoia(module: &str) -> bool {
-        ModLogger::get_mod_paranoia(module)
-    }
-    /// Returns the name of the module.
-    fn get_mod_name(module: &str) -> String {
-        ModLogger::get_mod_name(module)
-    }
 }

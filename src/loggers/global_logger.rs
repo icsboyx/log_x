@@ -44,13 +44,21 @@ pub static DEFAULT_LOG_LEVEL: LazyLock<RwLock<DefaultLogLevel>> = LazyLock::new(
 
 pub trait DefaultLoggerTrait {
     /// Sets the global log level.
-    fn set_log_level(log_level: LogLevel);
+    fn set_log_level(log_level: LogLevel){
+        DefaultLogLevel::set_log_level(log_level);
+    }
     /// Sets the global paranoia setting.
-    fn set_paranoia(paranoia: bool);
+    fn set_paranoia(paranoia: bool){
+        DefaultLogLevel::set_paranoia(paranoia);
+    }
     /// Gets the current global log level.
-    fn get_log_level() -> LogLevel;
+    fn get_log_level() -> LogLevel{
+        DefaultLogLevel::log_level()
+    }
     /// Gets the current global paranoia setting.
-    fn get_paranoia() -> bool;
+    fn get_paranoia() -> bool{
+        DefaultLogLevel::paranoia()
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
