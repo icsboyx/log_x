@@ -2,7 +2,7 @@
 extern crate log_x;
 
 use log_x::{
-    loggers::{ global_logger::{ DefaultLogLevel, DefaultLoggerTrait }, log_levels::LogLevel },
+    loggers::{ global_logger::{ DefaultLogger, DefaultLoggerTrait }, log_levels::LogLevel },
     Logger,
 };
 
@@ -14,7 +14,7 @@ fn main() {
     Logger::set_log_level(LogLevel::Debug);
 
     println!("\n{:-<200}", "");
-    println!("Logging from main, with log level of {}.\n", DefaultLogLevel::log_level());
+    println!("Logging from main, with log level of {}.\n", DefaultLogger::log_level());
     log_error!("This is an error message");
     log_warn!("This is a warning message");
     log_info!("This is an info message");
@@ -79,7 +79,7 @@ mod mod_two {
 }
 
 mod mod_three {
-    use loggers::global_logger::DefaultLogLevel;
+    use loggers::global_logger::DefaultLogger;
     use log_x::*;
     pub fn log_something() {
         // using the default log level form the main function
@@ -87,7 +87,7 @@ mod mod_three {
         println!("\n{:-<200}", "");
         println!(
             "Logging from mod_three with default log level form main with log level of {}.\n",
-            DefaultLogLevel::log_level()
+            DefaultLogger::log_level()
         );
         log_error!("This is an error message from mod_three");
         log_warn!("This is a warning message from mod_three");

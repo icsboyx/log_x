@@ -10,7 +10,7 @@ pub mod macros;
 use std::{ fmt::{ Debug, Display }, io::Write };
 
 use loggers::{
-    global_logger::{ DefaultLogLevel, DefaultLoggerTrait },
+    global_logger::{ DefaultLogger, DefaultLoggerTrait },
     log_levels::LogLevel,
     mod_logger::{ ModLogger, ModuleLoggerTrait },
 };
@@ -117,7 +117,7 @@ impl Logger {
     /// Checks if logging is enabled for the given log metadata.
     pub fn enabled(metadata: &LogMetadata) -> bool {
         let module_log_level = ModLogger::get_mod_log_level(metadata.module.as_str());
-        let default_level = DefaultLogLevel::log_level();
+        let default_level = DefaultLogger::log_level();
         if let Some(module_log_level) = module_log_level {
             return metadata.level <= module_log_level;
         }
@@ -139,7 +139,7 @@ impl Logger {
                 metadata.module().gray(),
                 metadata.message(),
                 if
-                    DefaultLogLevel::paranoia() ||
+                    DefaultLogger::paranoia() ||
                     ModLogger::get_mod_paranoia(metadata.module.as_str())
                 {
                     paranoia.gray()
@@ -159,9 +159,7 @@ impl Logger {
 }
 
 /// A trait for Default logging.
-impl DefaultLoggerTrait for Logger {
-}
+impl DefaultLoggerTrait for Logger {}
 
 /// A trait for Module logging.
-impl ModuleLoggerTrait for Logger {
-}
+impl ModuleLoggerTrait for Logger {}

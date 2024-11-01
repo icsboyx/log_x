@@ -40,8 +40,6 @@ fn main() {
 }
 ```
 
-
-
 ## Features
 
 - **Log Levels**: Supports multiple log levels (e.g., Error, Warn, Info, Debug, Trace).
@@ -51,11 +49,10 @@ fn main() {
 - **Flexible Configuration**: Allows customizing log levels and paranoia settings at runtime.
 - **Simple API**: Provides macros for logging messages at different log levels.
 
-
 ## Examples
 
 - ### Simple Example
-The following example demonstrates how to use the `log_x` library to log messages at different log levels.
+  The following example demonstrates how to use the `log_x` library to log messages at different log levels.
 
 ```rust
 #[macro_use]
@@ -107,6 +104,7 @@ fn main() {
 ```
 
 ### Output
+
 ```shell
 Setting the default log level to TRACE
 [2024-10-08 02:24:37 - ERROR][simple] This is an error message
@@ -125,16 +123,15 @@ Setting paranoia to true, this will inherit the log level from the parent, that 
 
 ```
 
-
 - ### Advanced Example per module logging
-The following example demonstrates how to use the `log_x` library to log messages at different log levels for different modules.
+  The following example demonstrates how to use the `log_x` library to log messages at different log levels for different modules.
 
 ```rust
 #[macro_use]
 extern crate log_x;
 
 use log_x::{
-    loggers::{ global_logger::{ DefaultLogLevel, DefaultLoggerTrait }, log_levels::LogLevel },
+    loggers::{ global_logger::{ DefaultLogger, DefaultLoggerTrait }, log_levels::LogLevel },
     Logger,
 
 };
@@ -147,7 +144,7 @@ fn main() {
     Logger::set_log_level(LogLevel::Debug);
 
     println!("\n{:-<200}", "");
-    println!("Logging from main, with log level of {}.\n", DefaultLogLevel::log_level());
+    println!("Logging from main, with log level of {}.\n", DefaultLogger::log_level());
     log_error!("This is an error message");
     log_warn!("This is a warning message");
     log_info!("This is an info message");
@@ -217,7 +214,7 @@ mod mod_two {
 }
 
 mod mod_three {
-    use loggers::global_logger::DefaultLogLevel;
+    use loggers::global_logger::DefaultLogger;
     use log_x::*;
     pub fn log_something() {
         // using the default log level form the main function
@@ -225,7 +222,7 @@ mod mod_three {
         println!("\n{:-<200}", "");
         println!(
             "Logging from mod_three with default log level form main with log level of {}.\n",
-            DefaultLogLevel::log_level()
+            DefaultLogger::log_level()
         );
         log_error!("This is an error message from mod_three");
         log_warn!("This is a warning message from mod_three");
@@ -260,8 +257,10 @@ mod mod_four {
     }
 }
 ```
+
 # Output
-```shell
+
+````shell
 Setting the default log level to Debug
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -302,7 +301,7 @@ Logging from mod_four with WARN level and paranoia true :P.
 [2024-10-08 02:26:18 - ERROR][multi_log_level::mod_four] This is an error message from mod_three | File: examples/multi_log_level.rs | Line: 113 |
 [2024-10-08 02:26:18 - WARN ][multi_log_level::mod_four] This is a warning message from mod_three | File: examples/multi_log_level.rs | Line: 114 |```
 
-```
+````
 
 ## Modules
 
@@ -318,5 +317,3 @@ Logging from mod_four with WARN level and paranoia true :P.
 - [`log_debug!`]: Logs a debug message.
 - [`log_trace!`]: Logs a trace message.
 - [`timestamp!`]: Generates a formatted timestamp string representing the current time.
-
-
