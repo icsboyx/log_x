@@ -29,6 +29,8 @@
 //! `MODULES_LOGGER` fails.
 use std::{ collections::HashMap, sync::{ LazyLock, RwLock } };
 
+use crate::output::logdest::LogDestination;
+
 use super::log_levels::LogLevel;
 
 // Define a global static variable for module-specific log levels
@@ -55,6 +57,41 @@ pub trait ModuleLoggerTrait {
     fn get_mod_paranoia(module: &str) -> bool {
         ModLogger::get_mod_paranoia(module)
     }
+    /// Log to file
+    fn set_mod_log_to_file(module: &str, file: impl Into<String>) {
+        ModLogger::set_mod_log_to_file(module, file.into());
+    }
+
+    /// Log to stdout
+    fn set_mod_log_to_stdout(module: &str) {
+        ModLogger::set_mod_log_to_stdout(module);
+    }
+
+    /// Remove file logging
+    fn remove_mod_log_to_file(module: &str) {
+        ModLogger::remove_mod_log_to_file(module);
+    }
+
+    /// Remove stdout logging
+    fn remove_mod_log_stdout(module: &str) {
+        ModLogger::remove_mod_log_stdout(module);
+    }
+
+    /// Silence logging
+    fn set_mod_logging_silent(module: &str) {
+        ModLogger::set_mod_logging_silent(module);
+    }
+
+    /// get log destination
+    fn get_mod_log_destination(module: &str) -> Option<LogDestination> {
+        ModLogger::get_mod_log_destination(module)
+    }
+
+    /// debug DEFAULT_LOGGER
+    fn debug_mod_logger(module: &str) -> String {
+        ModLogger::debug_mod_logger(module)
+
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Default)]
@@ -65,9 +102,32 @@ pub struct ModLogger {
     pub log_level: LogLevel,
     /// The paranoia flag for the module.
     pub paranoia: bool,
+    /// The log destinations for the module.
+    pub log_destinations: LogDestination,
 }
 
 impl ModLogger {
+    /// Get the logging configuration for a module if exists
+    pub fn get(module: &str) -> Option<ModLogger> {
+        match MODULES_LOGGER.read() {
+            Ok(modules_log_level) => {
+                match modules_log_level.get(module) {
+                    Some(mod_logger) => Some(mod_logger.clone()),
+                    None => None,
+                }
+            }
+            Err(e) => {
+                eprintln!(
+                    "Failed to get the log level for module {} in MODULES_LOGGER: {:?}",
+                    module,
+                    e
+                );
+                None
+            }
+        }
+    }
+
+
     /// Sets the log level and paranoia flag for a specific module.
     pub fn set_mod_log_level(module: &str, log_level: LogLevel, paranoia: bool) {
         match MODULES_LOGGER.write() {
@@ -76,6 +136,7 @@ impl ModLogger {
                     module: module.to_string(),
                     log_level,
                     paranoia,
+                    log_destinations: LogDestination::default(),
                 });
             }
             Err(e) => {
@@ -144,6 +205,137 @@ impl ModLogger {
                     e
                 );
                 false
+            }
+        }
+    }
+
+    // Log to file
+    pub fn set_mod_log_to_file(module: &str, file: impl Into<String>) {
+        match MODULES_LOGGER.write() {
+            Ok(mut modules_log_level) => {
+                if let Some(mod_logger) = modules_log_level.get_mut(module) {
+                    mod_logger.log_destinations.log_to_file(file.into());
+                }
+            }
+            Err(e) => {
+                eprintln!(
+                    "Failed to set the log destination for module {} in MODULES_LOGGER: {:?}",
+                    module,
+                    e
+                );
+            }
+        }
+    }
+
+    // Log to stdout
+    pub fn set_mod_log_to_stdout(module: &str) {
+        match MODULES_LOGGER.write() {
+            Ok(mut modules_log_level) => {
+                if let Some(mod_logger) = modules_log_level.get_mut(module) {
+                    mod_logger.log_destinations.log_to_stdout();
+                }
+            }
+            Err(e) => {
+                eprintln!(
+                    "Failed to set the log destination for module {} in MODULES_LOGGER: {:?}",
+                    module,
+                    e
+                );
+            }
+        }
+    }
+
+    // Remove file logging
+    pub fn remove_mod_log_to_file(module: &str) {
+        match MODULES_LOGGER.write() {
+            Ok(mut modules_log_level) => {
+                if let Some(mod_logger) = modules_log_level.get_mut(module) {
+                    mod_logger.log_destinations.remove_file();
+                }
+            }
+            Err(e) => {
+                eprintln!(
+                    "Failed to set the log destination for module {} in MODULES_LOGGER: {:?}",
+                    module,
+                    e
+                );
+            }
+        }
+    }
+
+    // Remove stdout logging
+    pub fn remove_mod_log_stdout(module: &str) {
+        match MODULES_LOGGER.write() {
+            Ok(mut modules_log_level) => {
+                if let Some(mod_logger) = modules_log_level.get_mut(module) {
+                    mod_logger.log_destinations.remove_stdout();
+                }
+            }
+            Err(e) => {
+                eprintln!(
+                    "Failed to set the log destination for module {} in MODULES_LOGGER: {:?}",
+                    module,
+                    e
+                );
+            }
+        }
+    }
+
+    // Silence logging
+    pub fn set_mod_logging_silent(module: &str) {
+        match MODULES_LOGGER.write() {
+            Ok(mut modules_log_level) => {
+                if let Some(mod_logger) = modules_log_level.get_mut(module) {
+                    mod_logger.log_destinations.silent();
+                }
+            }
+            Err(e) => {
+                eprintln!(
+                    "Failed to set the log destination for module {} in MODULES_LOGGER: {:?}",
+                    module,
+                    e
+                );
+            }
+        }
+    }
+
+    /// get log destination
+    pub fn get_mod_log_destination(module: &str) -> Option<LogDestination> {
+        match MODULES_LOGGER.read() {
+            Ok(modules_log_level) => {
+                match modules_log_level.get(module) {
+                    Some(mod_logger) => Some(mod_logger.log_destinations.clone()),
+                    None => None,
+                }
+            }
+            Err(e) => {
+                eprintln!(
+                    "Failed to get the log destination for module {} in MODULES_LOGGER: {:?}",
+                    module,
+                    e
+                );
+                None
+            }
+        }
+
+    }
+
+    /// debug DEFAULT_LOGGER
+    pub fn debug_mod_logger(module: &str) -> String {
+        match MODULES_LOGGER.read() {
+            Ok(modules_log_level) => {
+                match modules_log_level.get(module) {
+                    Some(mod_logger) => format!("{:?}", mod_logger),
+                    None => "".to_string(),
+                }
+            }
+            Err(e) => {
+                eprintln!(
+                    "Failed to read the log level for module {} in MODULES_LOGGER: {:?}",
+                    module,
+                    e
+                );
+                "".to_string()
             }
         }
     }

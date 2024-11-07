@@ -116,7 +116,7 @@ macro_rules! log_error {
     // Print empty message for error log
     () => {
         log_x::Logger::log(
-            &log_x::LogMetadata::new(
+            &mut log_x::LogMetadata::new(
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Error,
                 file!(),
@@ -130,7 +130,7 @@ macro_rules! log_error {
     // Pattern for error log message with format arguments
     ($($arg:tt)*) => {
         log_x::Logger::log(
-            &log_x::LogMetadata::new(
+            &mut log_x::LogMetadata::new(
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Error,
                 file!(),
@@ -146,7 +146,7 @@ macro_rules! log_warn {
     // Print empty message for warning log
     () => {
         log_x::Logger::log(
-            &log_x::LogMetadata::new(
+            &mut log_x::LogMetadata::new(
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Warn,
                 file!(),
@@ -160,7 +160,7 @@ macro_rules! log_warn {
     // Pattern for warning log message with format arguments
     ($($arg:tt)*) => {
         log_x::Logger::log(
-            &log_x::LogMetadata::new(
+            &mut log_x::LogMetadata::new(
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Warn,
                 file!(),
@@ -177,7 +177,7 @@ macro_rules! log_info {
     // Print empty message for info log
     () => {
         log_x::Logger::log(
-            &log_x::LogMetadata::new(
+            &mut log_x::LogMetadata::new(
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Info,
                 file!(),
@@ -191,7 +191,7 @@ macro_rules! log_info {
     // Pattern for info log message with format arguments
     ($($arg:tt)*) => {
         log_x::Logger::log(
-            &log_x::LogMetadata::new(
+            &mut log_x::LogMetadata::new(
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Info,
                 file!(),
@@ -208,7 +208,7 @@ macro_rules! log_debug {
     // Print empty message for debug log
     () => {
         log_x::Logger::log(
-            &log_x::LogMetadata::new(
+            &mut log_x::LogMetadata::new(
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Debug,
                 file!(),
@@ -222,7 +222,7 @@ macro_rules! log_debug {
     // Pattern for debug log message with format arguments
     ($($arg:tt)*) => {
         log_x::Logger::log(
-            &log_x::LogMetadata::new(
+            &mut log_x::LogMetadata::new(
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Debug,
                 file!(),
@@ -239,7 +239,7 @@ macro_rules! log_trace {
     // Print empty message for trace log
     () => {
         log_x::Logger::log(
-            &log_x::LogMetadata::new(
+            &mut log_x::LogMetadata::new(
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Trace,
                 file!(),
@@ -253,7 +253,7 @@ macro_rules! log_trace {
     // Pattern for trace log message with format arguments
     ($($arg:tt)*) => {
         log_x::Logger::log(
-            &log_x::LogMetadata::new(
+            &mut log_x::LogMetadata::new(
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Trace,
                 file!(),

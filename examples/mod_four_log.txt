@@ -1,0 +1,2 @@
+[2024-11-25 15:45:29 - ERROR][complex_log_with_destinations::mod_four] This is an error message from mod_three | File: examples/complex_log_with_destinations.rs | Line: 202 | 
+[2024-11-25 15:45:29 - WARN ][complex_log_with_destinations::mod_four] This is a warning message from mod_three | File: examples/complex_log_with_destinations.rs | Line: 203 | 

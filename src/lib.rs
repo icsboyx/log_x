@@ -3,6 +3,7 @@
 // Import necessary items
 pub mod loggers;
 pub mod terminal;
+pub mod output;
 
 #[macro_use]
 pub mod macros;
@@ -14,6 +15,7 @@ use loggers::{
     log_levels::LogLevel,
     mod_logger::{ ModLogger, ModuleLoggerTrait },
 };
+use output::logdest::{ log_to_destination,  LogDestination };
 use terminal::colors::Colorize;
 
 // Implement the Colorize trait for all types that implement Display and Debug
@@ -41,10 +43,14 @@ pub struct LogMetadata {
     file: String,
     /// The module where the log entry was generated.
     module: String,
+    /// logging from the module
+    loggin_from_module: bool,
     /// The line number in the file where the log entry was generated.
     line: u32,
     /// The log message.
     message: String,
+    /// The log destinations.
+    log_destinations: LogDestination,
 }
 
 /// A structure representing metadata for a log entry.
@@ -81,8 +87,10 @@ impl LogMetadata {
             level,
             file: file.into(),
             module: module.into(),
+            loggin_from_module: false,
             line,
             message: message.into(),
+            log_destinations: LogDestination::default(),
         }
     }
     /// Returns the severity level of the log entry.
@@ -115,38 +123,22 @@ pub struct Logger {}
 
 impl Logger {
     /// Checks if logging is enabled for the given log metadata.
-    pub fn enabled(metadata: &LogMetadata) -> bool {
-        let module_log_level = ModLogger::get_mod_log_level(metadata.module.as_str());
+    pub fn enabled(metadata: &mut LogMetadata) -> bool {
+        let module_logger = ModLogger::get(metadata.module.as_str());
         let default_level = DefaultLogger::log_level();
-        if let Some(module_log_level) = module_log_level {
-            return metadata.level <= module_log_level;
+        if let Some(module_logger) = module_logger {
+            metadata.loggin_from_module = true;
+            metadata.log_destinations = module_logger.log_destinations;
+            return metadata.level <= module_logger.log_level;
         }
+
+        metadata.log_destinations = DefaultLogger::log_destination();
         metadata.level <= default_level
     }
     /// Logs the given log metadata.
-    pub fn log(metadata: &LogMetadata) {
+    pub fn log(metadata: &mut LogMetadata) {
         if Logger::enabled(metadata) {
-            let timestamp = format!("{} - {}", metadata.timestamp(), metadata.level());
-            let paranoia = format!(
-                " | File: {} | Line: {} | ",
-
-                metadata.file(),
-                metadata.line()
-            );
-            println!(
-                "[{:^36}][{}] {}{}",
-                timestamp,
-                metadata.module().gray(),
-                metadata.message(),
-                if
-                    DefaultLogger::paranoia() ||
-                    ModLogger::get_mod_paranoia(metadata.module.as_str())
-                {
-                    paranoia.gray()
-                } else {
-                    "".to_string()
-                }
-            );
+            log_to_destination(metadata);
         }
     }
     /// Flushes the log output.

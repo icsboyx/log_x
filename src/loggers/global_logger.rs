@@ -35,6 +35,8 @@
 
 use std::{ fmt::Debug, sync::{ LazyLock, RwLock } };
 
+use crate::output::logdest::LogDestination;
+
 use super::log_levels::LogLevel;
 
 // Define global static variables for common log levels
@@ -59,20 +61,50 @@ pub trait DefaultLoggerTrait {
     fn get_paranoia() -> bool {
         DefaultLogger::paranoia()
     }
+    /// Log to file
+    fn log_to_file(file: impl Into<String>) {
+        DefaultLogger::log_to_file(file);
+    }
+    /// Log to stdout
+    fn log_to_stdout() {
+        DefaultLogger::log_to_stdout();
+    }
+    /// Remove file logging
+    fn remove_file() {
+        DefaultLogger::remove_file();
+    }
+    /// Remove stdout logging
+    fn remove_stdout() {
+        DefaultLogger::remove_stdout();
+    }
+    /// Silence logging
+    fn silent() {
+        DefaultLogger::silent();
+    }
+    /// get log destination
+    fn log_destination() -> LogDestination {
+        DefaultLogger::log_destination()
+    }
+    /// debug DEFAULT_LOGGER
+    fn display() -> String {
+        DefaultLogger::display()
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 pub struct DefaultLogger {
-    pub default_log_level: LogLevel,
+    pub default_logger: LogLevel,
     pub paranoia: bool,
+    pub log_destination: LogDestination,
 }
 
 impl Default for DefaultLogger {
     /// Returns the default log level and paranoia settings.
     fn default() -> Self {
         DefaultLogger {
-            default_log_level: LogLevel::Off,
+            default_logger: LogLevel::Off,
             paranoia: false,
+            log_destination: LogDestination::default(),
         }
     }
 }
@@ -81,8 +113,8 @@ impl DefaultLogger {
     /// Sets the global log level.
     pub fn set_log_level(log_level: LogLevel) {
         match DEFAULT_LOGGER.write() {
-            Ok(mut default_log_level) => {
-                default_log_level.default_log_level = log_level;
+            Ok(mut default_logger) => {
+                default_logger.default_logger = log_level;
             }
             Err(e) => {
                 eprintln!("Failed to set the default log level variable in DEFAULT_LOGGER: {e}");
@@ -92,8 +124,8 @@ impl DefaultLogger {
     /// Sets the global paranoia setting.
     pub fn set_paranoia(paranoia: bool) {
         match DEFAULT_LOGGER.write() {
-            Ok(mut default_log_level) => {
-                default_log_level.paranoia = paranoia;
+            Ok(mut default_logger) => {
+                default_logger.paranoia = paranoia;
             }
             Err(e) => {
                 eprintln!("Failed to set the paranoia variable in DEFAULT_LOGGER: {e}");
@@ -103,7 +135,7 @@ impl DefaultLogger {
     /// Gets the current global log level.
     pub fn log_level() -> LogLevel {
         match DEFAULT_LOGGER.read() {
-            Ok(default_log_level) => default_log_level.default_log_level,
+            Ok(default_logger) => default_logger.default_logger,
             Err(e) => {
                 eprintln!("Failed to read the default log level variable in DEFAULT_LOGGER: {e}");
                 LogLevel::Off
@@ -113,11 +145,103 @@ impl DefaultLogger {
     /// Gets the current global paranoia setting.
     pub fn paranoia() -> bool {
         match DEFAULT_LOGGER.read() {
-            Ok(default_log_level) => default_log_level.paranoia,
+            Ok(default_logger) => default_logger.paranoia,
             Err(e) => {
                 eprintln!("Failed to read the paranoia variable in DEFAULT_LOGGER: {e}");
                 false
             }
         }
     }
+
+    // Log to file
+    pub fn log_to_file(file: impl Into<String>) {
+        match DEFAULT_LOGGER.write() {
+            Ok(mut default_logger) => {
+                default_logger.log_destination.log_to_file(file.into());
+            }
+            Err(e) => {
+                eprintln!("Failed to set the default log destination variable in DEFAULT_LOGGER: {e}");
+            }
+        }
+    }
+
+    // Log to stdout
+    pub fn log_to_stdout() {
+        match DEFAULT_LOGGER.write() {
+            Ok(mut default_logger) => {
+                default_logger.log_destination.log_to_stdout();
+            }
+            Err(e) => {
+                eprintln!("Failed to set the default log destination variable in DEFAULT_LOGGER: {e}");
+            }
+        }
+    }
+
+    // Remove file logging
+    pub fn remove_file() {
+        match DEFAULT_LOGGER.write() {
+            Ok(mut default_logger) => {
+                default_logger.log_destination.remove_file();
+            }
+            Err(e) => {
+                eprintln!("Failed to set the default log destination variable in DEFAULT_LOGGER: {e}");
+            }
+        }
+    }
+
+    // Remove stdout logging
+    pub fn remove_stdout() {
+        match DEFAULT_LOGGER.write() {
+            Ok(mut default_logger) => {
+                default_logger.log_destination.remove_stdout();
+            }
+            Err(e) => {
+                eprintln!("Failed to set the default log destination variable in DEFAULT_LOGGER: {e}");
+            }
+        }
+    }
+
+    // Silence logging
+    pub fn silent() {
+        match DEFAULT_LOGGER.write() {
+            Ok(mut default_logger) => {
+                default_logger.log_destination.silent();
+            }
+            Err(e) => {
+                eprintln!("Failed to set the default log destination variable in DEFAULT_LOGGER: {e}");
+            }
+        }
+    }
+
+    /// get log destination
+    pub fn log_destination() -> LogDestination {
+        match DEFAULT_LOGGER.read() {
+            Ok(default_logger) => default_logger.log_destination.clone(),
+            Err(e) => {
+                eprintln!("Failed to read the default log destination variable in DEFAULT_LOGGER: {e}");
+                LogDestination::default()
+            }
+        }
+    }
+
+    /// debug DEFAULT_LOGGER
+    pub fn display() -> String {
+        match DEFAULT_LOGGER.read() {
+            Ok(default_logger) => {
+                format!("{:?}", default_logger)
+            }
+            Err(e) => {
+                format!("Failed to read the default log destination variable in DEFAULT_LOGGER, {:?}", e)
+            }
+        }
+    }
+
+
+
+
+
 }
+
+
+
+

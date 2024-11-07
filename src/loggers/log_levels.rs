@@ -40,20 +40,18 @@ pub enum LogLevel {
 }
 
 // Implement the Display trait for LogLevel
-/// Formats a `LogLevel` value as a string with associated colors. The colors are defined using the `Color` enum.
 impl Display for LogLevel {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        let (color, level_str) = match self {
-            LogLevel::Trace => (Color::Cyan, "TRACE"),
-            LogLevel::Debug => (Color::Blue, "DEBUG"),
-            LogLevel::Info => (Color::Green, "INFO"),
-            LogLevel::Warn => (Color::Yellow, "WARN"),
-            LogLevel::Error => (Color::Red, "ERROR"),
-            LogLevel::Off => (Color::White, "OFF"),
+        let level_str = match self {
+            LogLevel::Trace => "TRACE",
+            LogLevel::Debug => "DEBUG",
+            LogLevel::Info => "INFO",
+            LogLevel::Warn => "WARN",
+            LogLevel::Error => "ERROR",
+            LogLevel::Off => "OFF",
         };
 
-        // Write the colorized log level
-        write!(f, "{}{}{}", color.to_ansi_code(), level_str, Color::Reset.to_ansi_code())
+        write!(f, "{}", level_str)
     }
 }
 
@@ -99,3 +97,22 @@ impl Into<String> for LogLevel {
         self.to_string()
     }
 }
+
+/// LogLevel implementation
+impl LogLevel {
+    /// Formats a `LogLevel` value as a string with associated colors. The colors are defined using the `Color` enum.
+    /// Returns a colorized string representation of the log level.
+    pub fn colorized(&self) -> String {
+        let (color, level_str) = match self {
+            LogLevel::Trace => (Color::Cyan, "TRACE"),
+            LogLevel::Debug => (Color::Blue, "DEBUG"),
+            LogLevel::Info => (Color::Green, "INFO"),
+            LogLevel::Warn => (Color::Yellow, "WARN"),
+            LogLevel::Error => (Color::Red, "ERROR"),
+            LogLevel::Off => (Color::White, "OFF"),
+        };
+        format!("{}{}{}", color.to_ansi_code(), level_str, Color::Reset.to_ansi_code())
+    }
+    
+}
+

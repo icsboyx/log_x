@@ -1,7 +1,10 @@
 # log_x Library
 
 The `log_x` library provides a flexible and extensible logging framework for Rust applications.
-It supports different log levels, module-specific logging, and customizable log output formats.
+It supports different log levels, module-specific logging, and customizable log output formats, and destinations.
+Log destination can be a file or a terminal. Each module can have its own log level and paranoia mode and destinations.
+Logging simultaneously to a file and a terminal.
+
 
 ## Usage
 
@@ -26,7 +29,7 @@ fn main() {
    log_trace!("This is a trace message");
 
 
-  let metadata = LogMetadata::new(
+  let mut metadata = LogMetadata::new(
       "2023-10-01T12:00:00Z",
       LogLevel::Info,
       "main.rs",
@@ -35,7 +38,7 @@ fn main() {
       "This is a log message",
   );
 
-  Logger::log(&metadata);
+  Logger::log(&mut metadata);
 
 }
 ```
