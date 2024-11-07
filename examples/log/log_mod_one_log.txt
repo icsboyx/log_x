@@ -1,0 +1,5 @@
+[2024-11-25 16:20:25 - ERROR][complex_log_with_destinations::mod_one] This is an error message from mod_one
+[2024-11-25 16:20:25 - WARN ][complex_log_with_destinations::mod_one] This is a warning message from mod_one
+[2024-11-25 16:20:25 - INFO ][complex_log_with_destinations::mod_one] This is an info message from mod_one
+[2024-11-25 16:20:25 - DEBUG][complex_log_with_destinations::mod_one] This is a debug message from mod_one
+[2024-11-25 16:20:25 - TRACE][complex_log_with_destinations::mod_one] This is a trace message from mod_one

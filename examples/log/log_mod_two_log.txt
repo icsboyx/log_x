@@ -1,0 +1,3 @@
+[2024-11-25 16:20:25 - ERROR][complex_log_with_destinations::mod_two] This is an error message from mod_two
+[2024-11-25 16:20:25 - WARN ][complex_log_with_destinations::mod_two] This is a warning message from mod_two
+[2024-11-25 16:20:25 - INFO ][complex_log_with_destinations::mod_two] This is an info message from mod_two

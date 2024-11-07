@@ -12,7 +12,7 @@ fn main() {
     // This will also log on stdout "default setting"
     // On error will not panic, it will print the error message and proceed
     println!("Setting log level to Error and logging to file");
-    Logger::log_to_file("examples/gloabal_log.txt");
+    Logger::log_to_file("examples/log_gloabal_log.txt");
 
     // Set the default log level to Trace
     println!("Setting log level to Trace");
@@ -70,8 +70,8 @@ fn main() {
 
     // ############################################################################################################
     // reset the log file path to correct path
-    println!("Resetting the log file path to correct path \"examples/gloabal_log.txt\"");
-    Logger::log_to_file("examples/gloabal_log.txt");
+    println!("Resetting the log file path to correct path \"examples/log_gloabal_log.txt\"");
+    Logger::log_to_file("examples/log_gloabal_log.txt");
 
     println!("\n{:-<200}", "");
 
@@ -103,7 +103,7 @@ mod mod_one {
         // setting the log level to Trace for this specific module mod_one
         Logger::set_mod_logging(this_module, LogLevel::Trace, false);
         // setting the log output to file
-        Logger::set_mod_log_to_file(this_module, "examples/mod_one_log.txt");
+        Logger::set_mod_log_to_file(this_module, "examples/log_mod_one_log.txt");
 
         println!("\n{:-<200}", "");
         println!(
@@ -136,7 +136,7 @@ mod mod_two {
         // setting the log level to Trace for this specific module mod_two
         Logger::set_mod_logging(this_module, LogLevel::Info, false);
         // setting the log output to file
-        Logger::set_mod_log_to_file(this_module, "examples/mod_two_log.txt");
+        Logger::set_mod_log_to_file(this_module, "examples/log_mod_two_log.txt");
 
         println!("\n{:-<200}", "");
         println!(
@@ -184,7 +184,7 @@ mod mod_four {
         Logger::set_mod_logging(module_path!(), LogLevel::Warn, true);
 
         // setting the log output to file
-        Logger::set_mod_log_to_file(module_path!(), "examples/mod_four_log.txt");
+        Logger::set_mod_log_to_file(module_path!(), "examples/log_mod_four_log.txt");
 
 
 
