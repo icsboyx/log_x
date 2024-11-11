@@ -10,7 +10,7 @@ categories = ["development-tools::debugging"]
 version = "0.3.2"
 edition = "2021"
 license = "MIT"
-keywords = ["log", "logger", "logging", "log to file", "log to stdout"]
+keywords = ["log", "logger", "logging"]
 
 
 [dependencies]
