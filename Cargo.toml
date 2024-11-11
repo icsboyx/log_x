@@ -3,7 +3,7 @@ name = "log_x"
 repository = "https://github.com/icsboyx/log_x"
 description = "The `Log X` library provides a flexible and extensible logging framework for Rust applications. It supports different log levels, module-specific logging, and customizable log output targets."
 version = "0.3.1"
-edition = "2024"
+edition = "2021"
 license = "MIT"
 
 [dependencies]
