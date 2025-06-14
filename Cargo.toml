@@ -8,7 +8,7 @@ It supports different log levels, module-specific logging, and customizable log 
 """
 categories = ["development-tools::debugging"]
 version = "0.3.2"
-edition = "2021"
+edition = "2024"
 license = "MIT"
 keywords = ["log", "logger", "logging"]
 

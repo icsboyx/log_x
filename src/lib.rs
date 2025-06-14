@@ -2,20 +2,19 @@
 
 // Import necessary items
 pub mod loggers;
-pub mod terminal;
 pub mod output;
+pub mod terminal;
 
 #[macro_use]
 pub mod macros;
 
-use std::{ fmt::{ Debug, Display }, io::Write };
+use std::fmt::{Debug, Display};
+use std::io::Write;
 
-use loggers::{
-    global_logger::{ DefaultLogger, DefaultLoggerTrait },
-    log_levels::LogLevel,
-    mod_logger::{ ModLogger, ModuleLoggerTrait },
-};
-use output::logdest::{ log_to_destination,  LogDestination };
+use loggers::global_logger::{DefaultLogger, DefaultLoggerTrait};
+use loggers::log_levels::LogLevel;
+use loggers::mod_logger::{ModLogger, ModuleLoggerTrait};
+use output::logdest::{LogDestination, log_to_destination};
 use terminal::colors::Colorize;
 
 // Implement the Colorize trait for all types that implement Display and Debug
@@ -80,7 +79,7 @@ impl LogMetadata {
         file: impl Into<String>,
         module: impl Into<String>,
         line: u32,
-        message: impl Into<String>
+        message: impl Into<String>,
     ) -> Self {
         Self {
             timestamp: timestamp.into(),
@@ -93,26 +92,32 @@ impl LogMetadata {
             log_destinations: LogDestination::default(),
         }
     }
+
     /// Returns the severity level of the log entry.
     pub fn level(&self) -> LogLevel {
         self.level
     }
+
     /// Returns the module where the log entry was generated.
     pub fn module(&self) -> &str {
         &self.module
     }
+
     /// Returns the log message.
     pub fn message(&self) -> &str {
         &self.message
     }
+
     /// Returns the file where the log entry was generated.
     pub fn file(&self) -> &str {
         &self.file
     }
+
     /// Returns the line number in the file where the log entry was generated.
     pub fn line(&self) -> u32 {
         self.line
     }
+
     /// Returns the timestamp when the log entry was created.
     pub fn timestamp(&self) -> &str {
         &self.timestamp
@@ -135,12 +140,14 @@ impl Logger {
         metadata.log_destinations = DefaultLogger::log_destination();
         metadata.level <= default_level
     }
+
     /// Logs the given log metadata.
     pub fn log(metadata: &mut LogMetadata) {
         if Logger::enabled(metadata) {
             log_to_destination(metadata);
         }
     }
+
     /// Flushes the log output.
     pub fn flush() {
         match std::io::stdout().flush() {

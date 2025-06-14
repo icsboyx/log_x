@@ -16,10 +16,8 @@
 //! ### Usage
 //!
 //! ```
-//! use log_x::{log_error, timestamp};
 //! use log_x::loggers::log_levels::LogLevel;
-//! use log_x::Logger;
-//! use log_x::LogMetadata;
+//! use log_x::{LogMetadata, Logger, log_error, timestamp};
 //!
 //! log_error!();
 //! log_error!("An error occurred");
@@ -33,10 +31,8 @@
 //! ### Usage
 //!
 //! ```
-//! use log_x::{log_warn, timestamp};
 //! use log_x::loggers::log_levels::LogLevel;
-//! use log_x::Logger;
-//! use log_x::LogMetadata;
+//! use log_x::{LogMetadata, Logger, log_warn, timestamp};
 //!
 //! log_warn!();
 //! log_warn!("This is a warning");
@@ -50,9 +46,8 @@
 //! ### Usage
 //!
 //! ```
-//! use log_x::{log_info, timestamp};
 //! use log_x::loggers::log_levels::LogLevel;
-//! use log_x::Logger;
+//! use log_x::{Logger, log_info, timestamp};
 //!
 //! log_info!();
 //! log_info!("Informational message");
@@ -66,9 +61,8 @@
 //! ### Usage
 //!
 //! ```
-//! use log_x::{log_debug, timestamp};
 //! use log_x::loggers::log_levels::LogLevel;
-//! use log_x::Logger;
+//! use log_x::{Logger, log_debug, timestamp};
 //!
 //! log_debug!();
 //! log_debug!("Debugging message");
@@ -82,9 +76,8 @@
 //! ### Usage
 //!
 //! ```
-//! use log_x::{log_trace, timestamp};
 //! use log_x::loggers::log_levels::LogLevel;
-//! use log_x::Logger;
+//! use log_x::{Logger, log_trace, timestamp};
 //!
 //! log_trace!();
 //! log_trace!("Trace message");
@@ -110,7 +103,6 @@
 //! which would cause the duration calculation to fail.
 //!
 //!
-//!
 #[macro_export]
 macro_rules! log_error {
     // Print empty message for error log
@@ -120,7 +112,7 @@ macro_rules! log_error {
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Error,
                 file!(),
-                module_path!().to_string(), 
+                module_path!().to_string(),
                 line!(),
                 "".to_string()
             )
@@ -134,7 +126,7 @@ macro_rules! log_error {
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Error,
                 file!(),
-                module_path!().to_string(), 
+                module_path!().to_string(),
                 line!(),
                 format!($($arg)*)
             )
@@ -150,7 +142,7 @@ macro_rules! log_warn {
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Warn,
                 file!(),
-                module_path!().to_string(), 
+                module_path!().to_string(),
                 line!(),
                 "".to_string()
             )
@@ -164,7 +156,7 @@ macro_rules! log_warn {
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Warn,
                 file!(),
-                module_path!().to_string(), 
+                module_path!().to_string(),
                 line!(),
                 format!($($arg)*)
             )
@@ -181,7 +173,7 @@ macro_rules! log_info {
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Info,
                 file!(),
-                module_path!().to_string(), 
+                module_path!().to_string(),
                 line!(),
                 "".to_string()
             )
@@ -195,7 +187,7 @@ macro_rules! log_info {
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Info,
                 file!(),
-                module_path!().to_string(), 
+                module_path!().to_string(),
                 line!(),
                 format!($($arg)*)
             )
@@ -212,7 +204,7 @@ macro_rules! log_debug {
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Debug,
                 file!(),
-                module_path!().to_string(), 
+                module_path!().to_string(),
                 line!(),
                 "".to_string()
             )
@@ -226,7 +218,7 @@ macro_rules! log_debug {
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Debug,
                 file!(),
-                module_path!().to_string(), 
+                module_path!().to_string(),
                 line!(),
                 format!($($arg)*)
             )
@@ -243,7 +235,7 @@ macro_rules! log_trace {
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Trace,
                 file!(),
-                module_path!().to_string(), 
+                module_path!().to_string(),
                 line!(),
                 "".to_string()
             )
@@ -257,7 +249,7 @@ macro_rules! log_trace {
                 timestamp!(),
                 log_x::loggers::log_levels::LogLevel::Trace,
                 file!(),
-                module_path!().to_string(), 
+                module_path!().to_string(),
                 line!(),
                 format!($($arg)*)
             )
@@ -267,16 +259,14 @@ macro_rules! log_trace {
 
 #[macro_export]
 macro_rules! timestamp {
-    () => {
-        {
+    () => {{
         // Import necessary items
-        use std::time::{SystemTime, UNIX_EPOCH};
         use std::fmt::Write;
+        use std::time::{SystemTime, UNIX_EPOCH};
 
         // Get the current time since the Unix epoch
         let now = SystemTime::now();
-        let duration_since_epoch = now.duration_since(UNIX_EPOCH)
-            .expect("Time went backwards");
+        let duration_since_epoch = now.duration_since(UNIX_EPOCH).expect("Time went backwards");
 
         // Convert duration to seconds
         let seconds = duration_since_epoch.as_secs();
@@ -287,26 +277,28 @@ macro_rules! timestamp {
         const SECONDS_IN_HOUR: u64 = 3600;
         const SECONDS_IN_DAY: u64 = 86400;
 
-
         // Convert seconds to a rough approximation of date components
         let years_since_epoch = seconds / (SECONDS_IN_DAY * DAYS_IN_YEAR);
         let year = 1970 + years_since_epoch as i32; // Start from Unix epoch (1970)
 
         let days_since_epoch = (seconds / SECONDS_IN_DAY) % DAYS_IN_YEAR;
         let month = 1 + (days_since_epoch / 30); // Approximate month (not accounting for leap years)
-        let day = 1 + (days_since_epoch % 30);   // Approximate day
+        let day = 1 + (days_since_epoch % 30); // Approximate day
 
         // Convert seconds into hours, minutes, and seconds
-        let hours = (seconds / SECONDS_IN_HOUR) % 24;  // Get hours in a 24-hour format
+        let hours = (seconds / SECONDS_IN_HOUR) % 24; // Get hours in a 24-hour format
         let minutes = (seconds % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE;
         let seconds = seconds % SECONDS_IN_MINUTE;
 
         // Format the timestamp
         let mut formatted_time = String::new();
-        write!(formatted_time, "{:04}-{:02}-{:02} {:02}:{:02}:{:02}", year, month, day, hours, minutes, seconds)
-            .expect("Failed to format timestamp");
+        write!(
+            formatted_time,
+            "{:04}-{:02}-{:02} {:02}:{:02}:{:02}",
+            year, month, day, hours, minutes, seconds
+        )
+        .expect("Failed to format timestamp");
 
         formatted_time
-        }
-    };
+    }};
 }

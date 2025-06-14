@@ -31,18 +31,15 @@
 //! The functions that modify or read the global logger state handle potential errors by printing
 //! error messages to the standard error output.
 //!
-//!
 
-use std::{ fmt::Debug, sync::{ LazyLock, RwLock } };
-
-use crate::output::logdest::LogDestination;
+use std::fmt::Debug;
+use std::sync::{LazyLock, RwLock};
 
 use super::log_levels::LogLevel;
+use crate::output::logdest::LogDestination;
 
 // Define global static variables for common log levels
-pub static DEFAULT_LOGGER: LazyLock<RwLock<DefaultLogger>> = LazyLock::new(||
-    RwLock::new(DefaultLogger::default())
-);
+pub static DEFAULT_LOGGER: LazyLock<RwLock<DefaultLogger>> = LazyLock::new(|| RwLock::new(DefaultLogger::default()));
 
 pub trait DefaultLoggerTrait {
     /// Sets the global log level.
@@ -121,6 +118,7 @@ impl DefaultLogger {
             }
         }
     }
+
     /// Sets the global paranoia setting.
     pub fn set_paranoia(paranoia: bool) {
         match DEFAULT_LOGGER.write() {
@@ -132,6 +130,7 @@ impl DefaultLogger {
             }
         }
     }
+
     /// Gets the current global log level.
     pub fn log_level() -> LogLevel {
         match DEFAULT_LOGGER.read() {
@@ -142,6 +141,7 @@ impl DefaultLogger {
             }
         }
     }
+
     /// Gets the current global paranoia setting.
     pub fn paranoia() -> bool {
         match DEFAULT_LOGGER.read() {
@@ -231,17 +231,11 @@ impl DefaultLogger {
                 format!("{:?}", default_logger)
             }
             Err(e) => {
-                format!("Failed to read the default log destination variable in DEFAULT_LOGGER, {:?}", e)
+                format!(
+                    "Failed to read the default log destination variable in DEFAULT_LOGGER, {:?}",
+                    e
+                )
             }
         }
     }
-
-
-
-
-
 }
-
-
-
-

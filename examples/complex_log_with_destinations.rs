@@ -1,7 +1,9 @@
 #[macro_use]
 extern crate log_x;
 
-use log_x::{ loggers::{ global_logger::DefaultLoggerTrait, log_levels::LogLevel }, Logger };
+use log_x::Logger;
+use log_x::loggers::global_logger::DefaultLoggerTrait;
+use log_x::loggers::log_levels::LogLevel;
 
 fn main() {
     // print the default settings for global logger
@@ -34,11 +36,11 @@ fn main() {
     // Set the default log level to Info
     println!("Setting log level to Info");
     Logger::set_log_level(LogLevel::Info);
-    
+
     // lets set paranoia
     println!("Setting paranoia");
     Logger::set_paranoia(true);
-    
+
     println!("logging settings are {}", Logger::display());
 
     log_error!("This is an error message");
@@ -58,7 +60,7 @@ fn main() {
     Logger::log_to_stdout();
     Logger::set_log_level(LogLevel::Trace);
     Logger::log_to_file("kkkkkkk/gloabal_log.txt");
-    
+
     println!("logging settings are {}", Logger::display());
 
     // all the log messages will be printed
@@ -86,16 +88,12 @@ fn main() {
 
     // calling the log_something function from mod_four
     mod_four::log_something();
-
 }
 
-
-
 mod mod_one {
-    use log_x::{
-        loggers::{ log_levels::LogLevel, mod_logger::{ ModLogger, ModuleLoggerTrait } },
-        Logger,
-    };
+    use log_x::Logger;
+    use log_x::loggers::log_levels::LogLevel;
+    use log_x::loggers::mod_logger::{ModLogger, ModuleLoggerTrait};
 
     pub fn log_something() {
         let this_module = module_path!();
@@ -121,14 +119,10 @@ mod mod_one {
     }
 }
 
-
-
-
 mod mod_two {
-    use log_x::{
-        loggers::{ log_levels::LogLevel, mod_logger::{ ModLogger, ModuleLoggerTrait } },
-        Logger,
-    };
+    use log_x::Logger;
+    use log_x::loggers::log_levels::LogLevel;
+    use log_x::loggers::mod_logger::{ModLogger, ModuleLoggerTrait};
 
     pub fn log_something() {
         let this_module = module_path!();
@@ -154,10 +148,9 @@ mod mod_two {
     }
 }
 
-
 mod mod_three {
-    use loggers::global_logger::{DefaultLogger, DefaultLoggerTrait};
     use log_x::*;
+    use loggers::global_logger::{DefaultLogger, DefaultLoggerTrait};
     pub fn log_something() {
         // using the default log level form the main function
 
@@ -177,7 +170,9 @@ mod mod_three {
 }
 
 mod mod_four {
-    use log_x::{ loggers::{log_levels::LogLevel, mod_logger::ModuleLoggerTrait }, Logger };
+    use log_x::Logger;
+    use log_x::loggers::log_levels::LogLevel;
+    use log_x::loggers::mod_logger::ModuleLoggerTrait;
 
     pub fn log_something() {
         // setting the log level to warn for this specific module mod_four with paranoia true
@@ -185,8 +180,6 @@ mod mod_four {
 
         // setting the log output to file
         Logger::set_mod_log_to_file(module_path!(), "examples/log_mod_four_log.txt");
-
-
 
         // disabling the log output to stdout
         // only file logging will be done

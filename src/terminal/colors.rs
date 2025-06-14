@@ -27,7 +27,7 @@
 //! - `black`: Colors the text black.
 //!
 //! Each method returns a `String` with the text wrapped in the appropriate ANSI escape codes for the specified color.
-use std::fmt::{ Display, Debug };
+use std::fmt::{Debug, Display};
 
 // Define an enum to represent colors
 /// Represents various colors that can be used to colorize terminal text.

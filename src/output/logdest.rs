@@ -1,9 +1,9 @@
 use std::path::Path;
 
-use crate::{loggers::{global_logger::DefaultLogger, mod_logger::ModLogger}, terminal::colors::Colorize, LogMetadata};
-
-
-
+use crate::LogMetadata;
+use crate::loggers::global_logger::DefaultLogger;
+use crate::loggers::mod_logger::ModLogger;
+use crate::terminal::colors::Colorize;
 
 /// Represents a logging destination, which can be stdout, a file, or both.
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
@@ -86,26 +86,32 @@ pub fn log_to_destination(metadata: &LogMetadata) {
 /// * `metadata` - A reference to the `LogMetadata` to be logged.
 pub fn log_to_stdout(metadata: &LogMetadata) {
     let timestamp = format!("{} - {}", metadata.timestamp(), metadata.level().colorized());
-    let paranoia = format!(
-        " | File: {} | Line: {} | ",
-        metadata.file(),
-        metadata.line()
-    );
+    let paranoia = format!(" | File: {} | Line: {} | ", metadata.file(), metadata.line());
 
     let paranoia = match metadata.loggin_from_module {
-        true => if ModLogger::get_mod_paranoia(metadata.module.as_str()) {
-            paranoia
-        } else {
-            "".to_string()
-        },
-        false => if DefaultLogger::paranoia() {
-            paranoia
-        } else {
-            "".to_string()
+        true => {
+            if ModLogger::get_mod_paranoia(metadata.module.as_str()) {
+                paranoia
+            } else {
+                "".to_string()
+            }
+        }
+        false => {
+            if DefaultLogger::paranoia() {
+                paranoia
+            } else {
+                "".to_string()
+            }
         }
     };
 
-    println!("[{:^36}][{}] {}{}", timestamp, metadata.module().gray(), metadata.message(), paranoia);
+    println!(
+        "[{:^36}][{}] {}{}",
+        timestamp,
+        metadata.module().gray(),
+        metadata.message(),
+        paranoia
+    );
 }
 
 /// Logs the given metadata to a file.
@@ -116,26 +122,32 @@ pub fn log_to_stdout(metadata: &LogMetadata) {
 /// * `file` - The file to log to.
 pub fn log_to_file(metadata: &LogMetadata, file: impl Into<String>) {
     let timestamp = format!("{} - {}", metadata.timestamp(), metadata.level());
-    let paranoia = format!(
-        " | File: {} | Line: {} | ",
-        metadata.file(),
-        metadata.line()
-    );
+    let paranoia = format!(" | File: {} | Line: {} | ", metadata.file(), metadata.line());
 
     let paranoia = match metadata.loggin_from_module {
-        true => if ModLogger::get_mod_paranoia(metadata.module.as_str()) {
-            paranoia
-        } else {
-            "".to_string()
-        },
-        false => if DefaultLogger::paranoia() {
-            paranoia
-        } else {
-            "".to_string()
+        true => {
+            if ModLogger::get_mod_paranoia(metadata.module.as_str()) {
+                paranoia
+            } else {
+                "".to_string()
+            }
+        }
+        false => {
+            if DefaultLogger::paranoia() {
+                paranoia
+            } else {
+                "".to_string()
+            }
         }
     };
 
-    let payload = format!("[{:^27}][{}] {}{}", timestamp, metadata.module(), metadata.message(), paranoia);
+    let payload = format!(
+        "[{:^27}][{}] {}{}",
+        timestamp,
+        metadata.module(),
+        metadata.message(),
+        paranoia
+    );
 
     write_to_file(file, payload);
 }

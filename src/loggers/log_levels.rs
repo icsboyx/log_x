@@ -23,7 +23,8 @@
 //! Additionally, the `LogLevel` enum provides a `from_str` method to create a `LogLevel` value
 //! from a string representation. If the string does not match any known log level, `LogLevel::Off`
 //! is returned.
-use std::fmt::{ self, Display, Formatter };
+use std::fmt::{self, Display, Formatter};
+
 use crate::terminal::colors::Color;
 
 // Define an enum to represent log levels
@@ -113,6 +114,4 @@ impl LogLevel {
         };
         format!("{}{}{}", color.to_ansi_code(), level_str, Color::Reset.to_ansi_code())
     }
-    
 }
-

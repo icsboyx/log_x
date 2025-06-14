@@ -1,10 +1,9 @@
 #[macro_use]
 extern crate log_x;
 
-use log_x::{
-    loggers::{ global_logger::{ DefaultLogger, DefaultLoggerTrait }, log_levels::LogLevel },
-    Logger,
-};
+use log_x::Logger;
+use log_x::loggers::global_logger::{DefaultLogger, DefaultLoggerTrait};
+use log_x::loggers::log_levels::LogLevel;
 
 fn main() {
     // Set the default log level to Trace
@@ -35,10 +34,9 @@ fn main() {
 }
 
 mod mod_one {
-    use log_x::{
-        loggers::{ log_levels::LogLevel, mod_logger::{ ModLogger, ModuleLoggerTrait } },
-        Logger,
-    };
+    use log_x::Logger;
+    use log_x::loggers::log_levels::LogLevel;
+    use log_x::loggers::mod_logger::{ModLogger, ModuleLoggerTrait};
 
     pub fn log_something() {
         let this_module = module_path!();
@@ -60,7 +58,9 @@ mod mod_one {
 }
 
 mod mod_two {
-    use log_x::{ loggers::{ mod_logger::ModuleLoggerTrait, log_levels::LogLevel }, Logger };
+    use log_x::Logger;
+    use log_x::loggers::log_levels::LogLevel;
+    use log_x::loggers::mod_logger::ModuleLoggerTrait;
     pub fn log_something() {
         // setting the log level to Info for this specific module mod_two
         Logger::set_mod_logging(module_path!(), LogLevel::Info, false);
@@ -79,8 +79,8 @@ mod mod_two {
 }
 
 mod mod_three {
-    use loggers::global_logger::DefaultLogger;
     use log_x::*;
+    use loggers::global_logger::DefaultLogger;
     pub fn log_something() {
         // using the default log level form the main function
 
@@ -98,7 +98,9 @@ mod mod_three {
 }
 
 mod mod_four {
-    use log_x::{ loggers::{ mod_logger::ModuleLoggerTrait, log_levels::LogLevel }, Logger };
+    use log_x::Logger;
+    use log_x::loggers::log_levels::LogLevel;
+    use log_x::loggers::mod_logger::ModuleLoggerTrait;
 
     pub fn log_something() {
         // setting the log level to Info for this specific module mod_four
