@@ -88,17 +88,17 @@ pub fn log_to_stdout(metadata: &LogMetadata) {
     let timestamp = format!("{} - {}", metadata.timestamp(), metadata.level().colorized());
     let paranoia = format!(" | File: {} | Line: {} | ", metadata.file(), metadata.line());
 
-    let paranoia = match metadata.loggin_from_module {
+    let paranoia = match metadata.logging_from_module {
         true => {
             if ModLogger::get_mod_paranoia(metadata.module.as_str()) {
-                paranoia
+                paranoia.magenta()
             } else {
                 "".to_string()
             }
         }
         false => {
             if DefaultLogger::paranoia() {
-                paranoia
+                paranoia.magenta()
             } else {
                 "".to_string()
             }
@@ -124,7 +124,7 @@ pub fn log_to_file(metadata: &LogMetadata, file: impl Into<String>) {
     let timestamp = format!("{} - {}", metadata.timestamp(), metadata.level());
     let paranoia = format!(" | File: {} | Line: {} | ", metadata.file(), metadata.line());
 
-    let paranoia = match metadata.loggin_from_module {
+    let paranoia = match metadata.logging_from_module {
         true => {
             if ModLogger::get_mod_paranoia(metadata.module.as_str()) {
                 paranoia

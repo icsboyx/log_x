@@ -43,7 +43,7 @@ pub struct LogMetadata {
     /// The module where the log entry was generated.
     module: String,
     /// logging from the module
-    loggin_from_module: bool,
+    logging_from_module: bool,
     /// The line number in the file where the log entry was generated.
     line: u32,
     /// The log message.
@@ -86,7 +86,7 @@ impl LogMetadata {
             level,
             file: file.into(),
             module: module.into(),
-            loggin_from_module: false,
+            logging_from_module: false,
             line,
             message: message.into(),
             log_destinations: LogDestination::default(),
@@ -132,7 +132,7 @@ impl Logger {
         let module_logger = ModLogger::get(metadata.module.as_str());
         let default_level = DefaultLogger::log_level();
         if let Some(module_logger) = module_logger {
-            metadata.loggin_from_module = true;
+            metadata.logging_from_module = true;
             metadata.log_destinations = module_logger.log_destinations;
             return metadata.level <= module_logger.log_level;
         }
