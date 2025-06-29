@@ -86,7 +86,7 @@ pub fn log_to_destination(metadata: &LogMetadata) {
 /// * `metadata` - A reference to the `LogMetadata` to be logged.
 pub fn log_to_stdout(metadata: &LogMetadata) {
     let timestamp = format!("{} - {}", metadata.timestamp(), metadata.level().colorized());
-    let paranoia = format!(" | File: {} | Line: {} | ", metadata.file(), metadata.line());
+    let paranoia = format!(" | File: {}::{} | ", metadata.file(), metadata.line());
 
     let paranoia = match metadata.logging_from_module {
         true => {
