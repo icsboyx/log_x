@@ -257,49 +257,73 @@ macro_rules! log_trace {
     };
 }
 
-// Moving to chrono crate for better time handling
+// Moving to chrono crate for better time handling,
 // and cross-platform compatibility including  the ability to get local time
-/// Local timestamp helper.
+
+///
+/// Local timestamp helper using `chrono::Local`.
 ///
 /// # Usage
-/// - `timestamp!()` – microsecond precision (default)
-/// - `timestamp!(millis)` – millisecond precision
-/// - `timestamp!(micros)` – microsecond precision
-/// - `timestamp!(nanos)` – nanosecond precision
-/// - `timestamp!("%Y-%m-%d %H:%M")` – custom chrono format
+/// - `timestamp!()`                 – seconds precision (default)
+/// - `timestamp!(milliseconds)`     – millisecond precision
+/// - `timestamp!(millis)`           – alias for milliseconds
+/// - `timestamp!(micro)` / `micros` – microsecond precision
+/// - `timestamp!(nano)`  / `nanos`  – nanosecond precision
+/// - `timestamp!("%Y-%m-%d %H:%M")` – custom chrono format (string literal)
 ///
 /// # Examples
+/// Basic/Default (seconds):
 /// ```
-/// let s = timestamp!();
-/// let s = timestamp!(millis);
-/// let s = timestamp!("%H:%M:%S");
+/// // use log_x::timestamp; // uncomment and replace `your_crate` if you want this to compile
+/// use log_x::timestamp;
+/// println!("{}", timestamp!());
+/// // Output (example): 2025-08-29 10:22:11
 /// ```
-
+///
+/// Milliseconds:
+/// ```
+/// use log_x::timestamp;
+/// println!("{}", timestamp!(milliseconds));
+/// println!("{}", timestamp!(millis)); // alias
+/// // Output (example): 2025-08-29 10:22:11.123
+/// ```
+///
+/// Microseconds / Nanoseconds:
+/// ```
+/// use log_x::timestamp;
+/// println!("{}", timestamp!(micro));  // Output (example): 2025-08-29 10:22:11.123456
+/// println!("{}", timestamp!(nanos));  // Output (example): 2025-08-29 10:22:11.123456789
+/// ```
+///
+/// Custom format (with timezone offset):
+/// for format example and explanations see: <https://docs.rs/chrono/latest/chrono/format/strftime/index.html>
+/// ```
+/// use log_x::timestamp;
+/// println!("{}", timestamp!("%Y-%m-%d %H:%M:%S %z"));
+/// // Output (example): 2025-08-29 10:22:11 +0200
+/// ```
 #[macro_export]
 macro_rules! timestamp {
-    // default: with SEC precision
-    () => {{
-        let now = ::chrono::Local::now();
-        now.format("%Y-%m-%d %H:%M:%S").to_string()
-    }};
-    // custom format string
-    ($fmt:expr) => {{
-        let now = ::chrono::Local::now();
-        now.format($fmt).to_string()
-    }};
-    // milliseconds precision
-    (milliseconds) => {{
-        let now = ::chrono::Local::now();
-        now.format("%Y-%m-%d %H:%M:%S%.3f").to_string()
-    }};
-    // microseconds precision
-    (micro) => {{
-        let now = ::chrono::Local::now();
-        now.format("%Y-%m-%d %H:%M:%S%.6f").to_string()
-    }};
-    // nanoseconds precision
-    (nano) => {{
-        let now = ::chrono::Local::now();
-        now.format("%Y-%m-%d %H:%M:%S%.9f").to_string()
-    }};
+    // default: seconds precision (local time)
+    () => {{ ::chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string() }};
+
+    // ---- specific shorthands FIRST ----
+    (milliseconds) => {{ ::chrono::Local::now().format("%Y-%m-%d %H:%M:%S%.3f").to_string() }};
+    (millis) => {{ $crate::timestamp!(milliseconds) }};
+
+    (micro) => {{ ::chrono::Local::now().format("%Y-%m-%d %H:%M:%S%.6f").to_string() }};
+    (micros) => {{ $crate::timestamp!(micro) }};
+
+    (nano) => {{ ::chrono::Local::now().format("%Y-%m-%d %H:%M:%S%.9f").to_string() }};
+    (nanos) => {{ $crate::timestamp!(nano) }};
+
+    // custom format string — keep LAST, limit to literals so identifiers don’t get captured
+    ($fmt:literal) => {{ ::chrono::Local::now().format($fmt).to_string() }};
+
+    // helpful error for anything else
+    ($unknown:tt) => {
+        compile_error!(
+            "unsupported timestamp! argument. Use: milliseconds|millis|micro|micros|nano|nanos|\"custom fmt\""
+        );
+    };
 }
