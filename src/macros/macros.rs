@@ -257,48 +257,49 @@ macro_rules! log_trace {
     };
 }
 
+// Moving to chrono crate for better time handling
+// and cross-platform compatibility including  the ability to get local time
+/// Local timestamp helper.
+///
+/// # Usage
+/// - `timestamp!()` – microsecond precision (default)
+/// - `timestamp!(millis)` – millisecond precision
+/// - `timestamp!(micros)` – microsecond precision
+/// - `timestamp!(nanos)` – nanosecond precision
+/// - `timestamp!("%Y-%m-%d %H:%M")` – custom chrono format
+///
+/// # Examples
+/// ```
+/// let s = timestamp!();
+/// let s = timestamp!(millis);
+/// let s = timestamp!("%H:%M:%S");
+/// ```
+
 #[macro_export]
 macro_rules! timestamp {
+    // default: with SEC precision
     () => {{
-        // Import necessary items
-        use std::fmt::Write;
-        use std::time::{SystemTime, UNIX_EPOCH};
-
-        // Get the current time since the Unix epoch
-        let now = SystemTime::now();
-        let duration_since_epoch = now.duration_since(UNIX_EPOCH).expect("Time went backwards");
-
-        // Convert duration to seconds
-        let seconds = duration_since_epoch.as_secs();
-
-        // Constants for time conversion
-        const DAYS_IN_YEAR: u64 = 365;
-        const SECONDS_IN_MINUTE: u64 = 60;
-        const SECONDS_IN_HOUR: u64 = 3600;
-        const SECONDS_IN_DAY: u64 = 86400;
-
-        // Convert seconds to a rough approximation of date components
-        let years_since_epoch = seconds / (SECONDS_IN_DAY * DAYS_IN_YEAR);
-        let year = 1970 + years_since_epoch as i32; // Start from Unix epoch (1970)
-
-        let days_since_epoch = (seconds / SECONDS_IN_DAY) % DAYS_IN_YEAR;
-        let month = 1 + (days_since_epoch / 30); // Approximate month (not accounting for leap years)
-        let day = 1 + (days_since_epoch % 30); // Approximate day
-
-        // Convert seconds into hours, minutes, and seconds
-        let hours = (seconds / SECONDS_IN_HOUR) % 24; // Get hours in a 24-hour format
-        let minutes = (seconds % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE;
-        let seconds = seconds % SECONDS_IN_MINUTE;
-
-        // Format the timestamp
-        let mut formatted_time = String::new();
-        write!(
-            formatted_time,
-            "{:04}-{:02}-{:02} {:02}:{:02}:{:02}",
-            year, month, day, hours, minutes, seconds
-        )
-        .expect("Failed to format timestamp");
-
-        formatted_time
+        let now = ::chrono::Local::now();
+        now.format("%Y-%m-%d %H:%M:%S").to_string()
+    }};
+    // custom format string
+    ($fmt:expr) => {{
+        let now = ::chrono::Local::now();
+        now.format($fmt).to_string()
+    }};
+    // milliseconds precision
+    (milliseconds) => {{
+        let now = ::chrono::Local::now();
+        now.format("%Y-%m-%d %H:%M:%S%.3f").to_string()
+    }};
+    // microseconds precision
+    (micro) => {{
+        let now = ::chrono::Local::now();
+        now.format("%Y-%m-%d %H:%M:%S%.6f").to_string()
+    }};
+    // nanoseconds precision
+    (nano) => {{
+        let now = ::chrono::Local::now();
+        now.format("%Y-%m-%d %H:%M:%S%.9f").to_string()
     }};
 }
