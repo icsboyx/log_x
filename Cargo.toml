@@ -7,7 +7,7 @@ The `Log X` library provides a flexible and extensible logging framework for Rus
 It supports different log levels, module-specific logging, and customizable log output targets.
 """
 categories = ["development-tools::debugging"]
-version = "1.2.1"
+version = "1.2.2"
 edition = "2024"
 license = "MIT"
 keywords = ["log", "logger", "logging"]
